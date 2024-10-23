@@ -1,20 +1,18 @@
 package com.atey.vo;
 
-import lombok.AllArgsConstructor;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
-
-import java.io.Serializable;
 
 @Data
 @Builder
-@NoArgsConstructor
-@AllArgsConstructor
-public class UserLoginVO implements Serializable {
+@ApiModel(value="登录成功User对象", description="登录成功返回用户")
+public class UserLoginVO {
 
-    private Long id;
-    private String openid;
+    @ApiModelProperty("用户id")
+    private Integer id;
+
+    @ApiModelProperty("jwt令牌")
     private String token;
-
 }
