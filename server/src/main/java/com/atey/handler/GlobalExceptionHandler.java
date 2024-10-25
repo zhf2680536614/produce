@@ -32,7 +32,7 @@ public class GlobalExceptionHandler {
      * @param ex
      * @return
      */
-    @ExceptionHandler
+    /*@ExceptionHandler
     public Result exceptionHandler(SQLIntegrityConstraintViolationException ex){
         //Duplicate entry 'zhangsan' for key 'employee.idx_username'
         String message = ex.getMessage();
@@ -44,5 +44,5 @@ public class GlobalExceptionHandler {
         }else{
             return Result.error(MessageConstant.UNKNOWN_ERROR);
         }
-    }
+    }*/
 }
