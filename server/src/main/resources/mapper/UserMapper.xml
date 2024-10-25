@@ -29,6 +29,12 @@
             <if test="email!=null and email!=''">
                 email = #{email},
             </if>
+            <if test="deleted!=null and deleted!=''">
+                deleted = #{deleted},
+            </if>
+            <if test="updateTime!=null">
+                update_time = #{updateTime},
+            </if>
         </set>
         where id = #{id}
     </update>
