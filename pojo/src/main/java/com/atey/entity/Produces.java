@@ -41,7 +41,7 @@ public class Produces implements Serializable {
     @TableField("category")
     private Integer category;
 
-    @ApiModelProperty(value = "发源地")
+    @ApiModelProperty(value = "产地")
     @TableField("origin")
     private String origin;
 
@@ -59,11 +59,11 @@ public class Produces implements Serializable {
 
     @ApiModelProperty(value = "生长周期")
     @TableField("growth_time")
-    private LocalDateTime growthTime;
+    private String growthTime;
 
     @ApiModelProperty(value = "生长习性")
     @TableField("shelf_life")
-    private Integer shelfLife;
+    private String shelfLife;
 
     @ApiModelProperty(value = "创建时间")
     @TableField("create_time")
@@ -77,7 +77,7 @@ public class Produces implements Serializable {
     @TableField("deleted")
     private Integer deleted;
 
-    @ApiModelProperty(value = "状态 1为启动，2为禁用")
+    @ApiModelProperty(value = "状态 1为启用，2为禁用")
     @TableField("status")
     private Integer status;
 

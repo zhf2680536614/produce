@@ -2,7 +2,7 @@ package com.atey.controller.admin;
 
 import com.atey.dto.PageDTO;
 import com.atey.dto.UserDTO;
-import com.atey.dto.UserQueryDTO;
+import com.atey.query.UserQuery;
 import com.atey.result.Result;
 import com.atey.service.IUserService;
 import com.atey.vo.UserVO;
@@ -23,14 +23,14 @@ public class UserController {
 
     /**
      * 管理端用户分页查询
-     * @param userQueryDTO
+     * @param userQuery
      * @return
      */
     @GetMapping("/page")
     @ApiOperation("用户信息分页查询")
-    public Result<PageDTO<UserVO>> pageQuery(UserQueryDTO userQueryDTO) {
-        log.info("管理端用户分页查询 {} {} {}", userQueryDTO.getPageNo(), userQueryDTO.getPageSize(), userQueryDTO);
-        PageDTO<UserVO> result =  userService.pageQuery(userQueryDTO);
+    public Result<PageDTO<UserVO>> pageQuery(UserQuery userQuery) {
+        log.info("管理端用户分页查询 {} {} {}", userQuery.getPageNo(), userQuery.getPageSize(), userQuery);
+        PageDTO<UserVO> result =  userService.pageQuery(userQuery);
         return Result.success(result);
     }
 
@@ -81,7 +81,7 @@ public class UserController {
     @PutMapping("/update")
     @ApiOperation("修改用户")
     public Result update(@RequestBody UserDTO userDTO) {
-        log.info("修改用户{}",userDTO.toString());
+        log.info("修改用户{}",userDTO);
         userService.updateUser(userDTO);
         return Result.success();
     }

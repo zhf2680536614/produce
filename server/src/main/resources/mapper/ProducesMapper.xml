@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.atey.mapper.ProducesMapper">
+
+    <update id="update" parameterType="com.atey.entity.Produces">
+        update produces
+        <set>
+            <if test="name!=null and name!=''">
+                name = #{name},
+            </if>
+            <if test="category!=null and category!=''">
+                category = #{category},
+            </if>
+            <if test="origin!=null and origin!=''">
+                origin = #{origin},
+            </if>
+            <if test="status!=null and status!=''">
+                status = #{status},
+            </if>
+            <if test="image!=null and image!=''">
+                image = #{image},
+            </if>
+            <if test="description!=null and description!=''">
+                description = #{description},
+            </if>
+            <if test="growthCycle!=null and growthCycle!=''">
+                growth_cycle = #{growthCycle},
+            </if>
+            <if test="growthTime!=null and growthTime!=''">
+                growth_time = #{growthTime},
+            </if>
+            <if test="shelfLife!=null and shelfLife!=''">
+                shelf_life = #{shelfLife},
+            </if>
+            <if test="deleted!=null and deleted!=''">
+                deleted = #{deleted},
+            </if>
+            <if test="updateTime!=null">
+                update_time = #{updateTime},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+</mapper>

@@ -2,7 +2,10 @@ package com.atey.service;
 
 
 import com.atey.entity.Category;
+import com.atey.vo.CategoryVO;
 import com.baomidou.mybatisplus.extension.service.IService;
+
+import java.util.List;
 
 /**
  * <p>
@@ -14,4 +17,9 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface ICategoryService extends IService<Category> {
 
+    /**
+     * 获取所有分类
+     * @return
+     */
+    List<CategoryVO> queryCategory();
 }

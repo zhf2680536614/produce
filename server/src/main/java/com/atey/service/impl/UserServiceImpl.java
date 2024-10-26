@@ -2,25 +2,23 @@ package com.atey.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
 import com.atey.constant.DeletedConstant;
+import com.atey.constant.MessageConstant;
 import com.atey.constant.StatusConstant;
 import com.atey.constant.TypeConstant;
 import com.atey.dto.PageDTO;
 import com.atey.dto.UserDTO;
-import com.atey.dto.UserQueryDTO;
+import com.atey.query.UserQuery;
 import com.atey.entity.User;
 import com.atey.exception.BaseException;
 import com.atey.mapper.UserMapper;
-import com.atey.result.Result;
 import com.atey.service.IUserService;
 import com.atey.vo.UserVO;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.AllArgsConstructor;
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.lang.reflect.Type;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -39,18 +37,18 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
     /**
      * 管理端用户分页查询
      *
-     * @param userQueryDTO
+     * @param userQuery
      * @return
      */
     @Override
-    public PageDTO<UserVO> pageQuery(UserQueryDTO userQueryDTO) {
+    public PageDTO<UserVO> pageQuery(UserQuery userQuery) {
 
-        String username = userQueryDTO.getUsername();
-        String phoneNumber = userQueryDTO.getPhoneNumber();
-        LocalDateTime startCreateTime = userQueryDTO.getStartCreateTime();
-        LocalDateTime endCreateTime = userQueryDTO.getEndCreateTime();
+        String username = userQuery.getUsername();
+        String phoneNumber = userQuery.getPhoneNumber();
+        LocalDateTime startCreateTime = userQuery.getStartCreateTime();
+        LocalDateTime endCreateTime = userQuery.getEndCreateTime();
 
-        Page<User> page = userQueryDTO.toMpPage();
+        Page<User> page = userQuery.toMpPage();
 
         Page<User> result = lambdaQuery()
                 .like(username != null, User::getUsername, username)
@@ -71,9 +69,19 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
      */
     @Override
     public void save(UserDTO userDTO) {
+
+        if(userDTO.getGender() == null){
+            throw new BaseException(MessageConstant.CHOOSE_GENDER);
+        }
+        if(userDTO.getType() == null){
+            throw new BaseException(MessageConstant.CHOOSE_TYPE);
+        }
+        if(userDTO.getStatus() == null){
+            throw new BaseException(MessageConstant.CHOOSE_STATUS);
+        }
         User user = new User();
         BeanUtil.copyProperties(userDTO, user);
-        user.setDeleted(1);
+        user.setDeleted(DeletedConstant.NOT_DELETED);
         user.setCreateTime(LocalDateTime.now());
         user.setUpdateTime(LocalDateTime.now());
 
@@ -88,7 +96,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
         if (BeanUtil.isEmpty(one)) {
             save(user);
         } else {
-            throw new BaseException("添加失败，用户已存在");
+            throw new BaseException(MessageConstant.USER_EXIST_SAVE);
         }
     }
 
@@ -146,7 +154,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
                 .list();
 
         if (list.size() >= 2) {
-            throw new BaseException("该用户名已存在");
+            throw new BaseException(MessageConstant.USER_EXIST_UPDATE);
         }
     }
 

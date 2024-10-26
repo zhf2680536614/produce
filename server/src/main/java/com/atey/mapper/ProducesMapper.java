@@ -17,4 +17,9 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface ProducesMapper extends BaseMapper<Produces> {
 
+    /**
+     * 删除产品
+     * @param produces
+     */
+    void update(Produces produces);
 }

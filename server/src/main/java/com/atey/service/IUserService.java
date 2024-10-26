@@ -2,7 +2,7 @@ package com.atey.service;
 
 import com.atey.dto.PageDTO;
 import com.atey.dto.UserDTO;
-import com.atey.dto.UserQueryDTO;
+import com.atey.query.UserQuery;
 import com.atey.entity.User;
 import com.atey.vo.UserVO;
 import com.baomidou.mybatisplus.extension.service.IService;
@@ -18,10 +18,10 @@ import com.baomidou.mybatisplus.extension.service.IService;
 public interface IUserService extends IService<User> {
     /**
      * 管理端用户分页查询
-     * @param userQueryDTO
+     * @param userQuery
      * @return
      */
-    PageDTO<UserVO> pageQuery(UserQueryDTO userQueryDTO);
+    PageDTO<UserVO> pageQuery(UserQuery userQuery);
 
     /**
      * 新增用户
