@@ -50,15 +50,15 @@ public class CategoryController {
     /**
      * 分类分页查询
      *
-     * @param query
+     * @param categoryQuery
      * @return
      */
     @GetMapping("/page")
     @ApiOperation("分类分页查询")
-    @Cacheable(cacheNames = "categoryCache", key = "#query.pageNo")
-    public Result<PageDTO<Category>> query(CategoryQuery query) {
-        log.info("分类分页查询{}", query);
-        return categoryService.pageQueryCategory(query);
+    @Cacheable(cacheNames = "categoryCache", key = "#categoryQuery.toString() + '-' + #categoryQuery.pageNo.toString()")
+    public Result<PageDTO<Category>> query(CategoryQuery categoryQuery) {
+        log.info("分类分页查询{}", categoryQuery);
+        return categoryService.pageQueryCategory(categoryQuery);
     }
 
     /**

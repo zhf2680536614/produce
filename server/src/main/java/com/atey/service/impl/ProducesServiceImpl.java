@@ -79,7 +79,7 @@ public class ProducesServiceImpl extends ServiceImpl<ProducesMapper, Produces> i
      * @return
      */
     @Override
-    @CachePut(value="producesCache",key="#producesQuery.pageNo")
+    @CachePut(value="producesCache",key="#producesQuery.toString() + '-' + #producesQuery.pageNo.toString()")
     public Result<PageDTO<ProducesVO>> queryProduces(ProducesQuery producesQuery) {
         String name = producesQuery.getName();
         String origin = producesQuery.getOrigin();

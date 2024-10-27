@@ -29,10 +29,10 @@ public interface ICategoryService extends IService<Category> {
 
     /**
      * 分类分页查询
-     * @param query
+     * @param categoryQuery
      * @return
      */
-    Result<PageDTO<Category>> pageQueryCategory(CategoryQuery query);
+    Result<PageDTO<Category>> pageQueryCategory(CategoryQuery categoryQuery);
 
     /**
      * 新增分类

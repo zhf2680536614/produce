@@ -68,17 +68,17 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
     /**
      * 分类分页查询
      *
-     * @param query
+     * @param categoryQuery
      * @return
      */
     @Override
-    @CachePut(value="categoryCache",key="#query.pageNo")
-    public Result<PageDTO<Category>> pageQueryCategory(CategoryQuery query) {
-        String name = query.getName();
-        LocalDateTime startCreateTime = query.getStartCreateTime();
-        LocalDateTime endCreateTime = query.getEndCreateTime();
+    @CachePut(value="categoryCache",key="#categoryQuery.toString() + '-' + #categoryQuery.pageNo.toString()")
+    public Result<PageDTO<Category>> pageQueryCategory(CategoryQuery categoryQuery) {
+        String name = categoryQuery.getName();
+        LocalDateTime startCreateTime = categoryQuery.getStartCreateTime();
+        LocalDateTime endCreateTime = categoryQuery.getEndCreateTime();
 
-        Page<Category> page = query.toMpPage();
+        Page<Category> page = categoryQuery.toMpPage();
 
         Page<Category> result = lambdaQuery()
                 .like(name != null, Category::getName, name)

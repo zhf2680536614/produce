@@ -41,7 +41,7 @@ public class ProducesController {
      */
     @GetMapping("/page")
     @ApiOperation("产品分页查询")
-    @Cacheable(cacheNames = "producesCache",key = "#producesQuery.pageNo")
+    @Cacheable(cacheNames = "producesCache",key = "#producesQuery.toString() + '-' + #producesQuery.pageNo.toString()")
     public Result<PageDTO<ProducesVO>> page(ProducesQuery producesQuery){
         log.info("产品分页查询{}", producesQuery.toString());
         return producesService.queryProduces(producesQuery);

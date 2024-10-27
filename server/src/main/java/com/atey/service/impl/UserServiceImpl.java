@@ -36,6 +36,7 @@ import java.util.List;
 @AllArgsConstructor
 public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IUserService {
     private final UserMapper userMapper;
+
     /**
      * 管理端用户分页查询
      *
@@ -43,7 +44,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
      * @return
      */
     @Override
-    @CachePut(value="userCache",key="#userQuery.pageNo")
+    @CachePut(value = "userCache", key = "#userQuery.toString() + '-' + #userQuery.pageNo.toString()")
     public Result<PageDTO<UserVO>> pageQuery(UserQuery userQuery) {
 
         String username = userQuery.getUsername();
@@ -73,13 +74,13 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
     @Override
     public void save(UserDTO userDTO) {
 
-        if(userDTO.getGender() == null){
+        if (userDTO.getGender() == null) {
             throw new BaseException(MessageConstant.CHOOSE_GENDER);
         }
-        if(userDTO.getType() == null){
+        if (userDTO.getType() == null) {
             throw new BaseException(MessageConstant.CHOOSE_TYPE);
         }
-        if(userDTO.getStatus() == null){
+        if (userDTO.getStatus() == null) {
             throw new BaseException(MessageConstant.CHOOSE_STATUS);
         }
         User user = new User();
@@ -163,6 +164,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
 
     /**
      * 用户登录
+     *
      * @param userDTO
      * @return
      */
@@ -173,13 +175,13 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
         String password = userDTO.getPassword();
 
         User one = lambdaQuery()
-                .eq(username!=null, User::getUsername, userDTO.getUsername())
-                .eq(password!=null, User::getPassword, userDTO.getPassword())
+                .eq(username != null, User::getUsername, userDTO.getUsername())
+                .eq(password != null, User::getPassword, userDTO.getPassword())
                 .eq(User::getDeleted, DeletedConstant.NOT_DELETED)
                 .eq(User::getStatus, StatusConstant.ENABLE)
                 .one();
 
-        if(BeanUtil.isEmpty(one)) {
+        if (BeanUtil.isEmpty(one)) {
             throw new BaseException("登录失败，账号或密码错误!");
         }
 
@@ -188,6 +190,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
 
     /**
      * 管理员登录
+     *
      * @param userDTO
      * @return
      */
@@ -197,14 +200,14 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
         String password = userDTO.getPassword();
 
         User one = lambdaQuery()
-                .eq(username!=null, User::getUsername, userDTO.getUsername())
-                .eq(password!=null, User::getPassword, userDTO.getPassword())
+                .eq(username != null, User::getUsername, userDTO.getUsername())
+                .eq(password != null, User::getPassword, userDTO.getPassword())
                 .eq(User::getDeleted, DeletedConstant.NOT_DELETED)
                 .eq(User::getType, TypeConstant.ADMIN)
                 .eq(User::getStatus, StatusConstant.ENABLE)
                 .one();
 
-        if(BeanUtil.isEmpty(one)) {
+        if (BeanUtil.isEmpty(one)) {
             throw new BaseException("登录失败，账号或密码错误!");
         }
 
