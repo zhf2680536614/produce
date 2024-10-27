@@ -12,6 +12,8 @@ import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.annotations.Delete;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -39,10 +41,10 @@ public class ProducesController {
      */
     @GetMapping("/page")
     @ApiOperation("产品分页查询")
+    @Cacheable(cacheNames = "producesCache",key = "#producesQuery.pageNo")
     public Result<PageDTO<ProducesVO>> page(ProducesQuery producesQuery){
         log.info("产品分页查询{}", producesQuery.toString());
-        PageDTO<ProducesVO> list = producesService.queryProduces(producesQuery);
-        return Result.success(list);
+        return producesService.queryProduces(producesQuery);
     }
 
     /**
@@ -52,6 +54,7 @@ public class ProducesController {
      */
     @PostMapping("/save")
     @ApiOperation("新增产品")
+    @CacheEvict(cacheNames = "producesCache",allEntries = true)
     public Result save(@RequestBody ProducesDTO producesDTO) {
         log.info("新增产品{}", producesDTO);
         producesService.saveProduces(producesDTO);
@@ -65,6 +68,7 @@ public class ProducesController {
      */
     @DeleteMapping("/{id}")
     @ApiOperation("删除产品")
+    @CacheEvict(cacheNames = "producesCache",allEntries = true)
     public Result delete(@PathVariable Integer id) {
         log.info("删除产品{}",id);
         producesService.deleteProduces(id);
@@ -91,6 +95,7 @@ public class ProducesController {
      */
     @PutMapping("/update")
     @ApiOperation("修改产品")
+    @CacheEvict(cacheNames = "producesCache",allEntries = true)
     public Result update(@RequestBody ProducesDTO producesDTO) {
         log.info("修改产品{}",producesDTO);
         producesService.updateProduces(producesDTO);

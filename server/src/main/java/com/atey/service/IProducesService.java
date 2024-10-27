@@ -4,6 +4,7 @@ import com.atey.dto.PageDTO;
 import com.atey.dto.ProducesDTO;
 import com.atey.query.ProducesQuery;
 import com.atey.entity.Produces;
+import com.atey.result.Result;
 import com.atey.vo.ProducesVO;
 import com.baomidou.mybatisplus.extension.service.IService;
 
@@ -19,7 +20,7 @@ public interface IProducesService extends IService<Produces> {
 
     /**
      * 新增产品
-     * @param producesQuery
+     * @param producesDTO
      * @return
      */
     void saveProduces(ProducesDTO producesDTO);
@@ -29,7 +30,7 @@ public interface IProducesService extends IService<Produces> {
      * @param producesQuery
      * @return
      */
-    PageDTO<ProducesVO> queryProduces(ProducesQuery producesQuery);
+    Result<PageDTO<ProducesVO>> queryProduces(ProducesQuery producesQuery);
 
     /**
      * 删除产品

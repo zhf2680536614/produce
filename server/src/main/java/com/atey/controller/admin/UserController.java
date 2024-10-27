@@ -2,6 +2,7 @@ package com.atey.controller.admin;
 
 import com.atey.dto.PageDTO;
 import com.atey.dto.UserDTO;
+import com.atey.entity.User;
 import com.atey.query.UserQuery;
 import com.atey.result.Result;
 import com.atey.service.IUserService;
@@ -10,6 +11,9 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.web.bind.annotation.*;
 
 @RestController("AdminUserController")
@@ -28,10 +32,10 @@ public class UserController {
      */
     @GetMapping("/page")
     @ApiOperation("用户信息分页查询")
+    @Cacheable(cacheNames = "userCache",key = "#userQuery.pageNo")
     public Result<PageDTO<UserVO>> pageQuery(UserQuery userQuery) {
         log.info("管理端用户分页查询 {} {} {}", userQuery.getPageNo(), userQuery.getPageSize(), userQuery);
-        PageDTO<UserVO> result =  userService.pageQuery(userQuery);
-        return Result.success(result);
+        return  userService.pageQuery(userQuery);
     }
 
     /**
@@ -41,7 +45,8 @@ public class UserController {
      */
     @PostMapping("/save")
     @ApiOperation("添加用户")
-    public Result<UserVO> save(@RequestBody UserDTO userDTO) {
+    @CacheEvict(cacheNames = "userCache",allEntries = true)
+    public Result save(@RequestBody UserDTO userDTO) {
         log.info("新增用户{}", userDTO.toString());
         userService.save(userDTO);
         return Result.success();
@@ -54,6 +59,7 @@ public class UserController {
      */
     @DeleteMapping("/{id}")
     @ApiOperation("删除用户")
+    @CacheEvict(cacheNames = "userCache",allEntries = true)
     public Result delete(@PathVariable Long id) {
         log.info("删除用户{}",id);
         userService.delete(id);
@@ -67,6 +73,7 @@ public class UserController {
      */
     @GetMapping("/{id}")
     @ApiOperation("根据id查询用户")
+
     public Result<UserVO> getById(@PathVariable Long id) {
         log.info("根据id查询用户{}",id);
         UserVO userVO = userService.getByIdUser(id);
@@ -80,6 +87,7 @@ public class UserController {
      */
     @PutMapping("/update")
     @ApiOperation("修改用户")
+    @CacheEvict(cacheNames = "userCache",allEntries = true)
     public Result update(@RequestBody UserDTO userDTO) {
         log.info("修改用户{}",userDTO);
         userService.updateUser(userDTO);

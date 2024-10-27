@@ -11,11 +11,13 @@ import com.atey.query.UserQuery;
 import com.atey.entity.User;
 import com.atey.exception.BaseException;
 import com.atey.mapper.UserMapper;
+import com.atey.result.Result;
 import com.atey.service.IUserService;
 import com.atey.vo.UserVO;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.AllArgsConstructor;
+import org.springframework.cache.annotation.CachePut;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -41,7 +43,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
      * @return
      */
     @Override
-    public PageDTO<UserVO> pageQuery(UserQuery userQuery) {
+    @CachePut(value="userCache",key="#userQuery.pageNo")
+    public Result<PageDTO<UserVO>> pageQuery(UserQuery userQuery) {
 
         String username = userQuery.getUsername();
         String phoneNumber = userQuery.getPhoneNumber();
@@ -58,7 +61,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
                 .orderByDesc(User::getUpdateTime)
                 .page(page);
 
-        return PageDTO.of(result, UserVO.class);
+        return Result.success(PageDTO.of(result, UserVO.class));
     }
 
     /**

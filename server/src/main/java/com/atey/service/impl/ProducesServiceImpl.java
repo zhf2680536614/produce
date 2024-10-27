@@ -10,12 +10,14 @@ import com.atey.query.ProducesQuery;
 import com.atey.entity.Produces;
 import com.atey.exception.BaseException;
 import com.atey.mapper.ProducesMapper;
+import com.atey.result.Result;
 import com.atey.service.IProducesService;
 import com.atey.vo.ProducesVO;
 import com.atey.vo.UserVO;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.AllArgsConstructor;
+import org.springframework.cache.annotation.CachePut;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -77,7 +79,8 @@ public class ProducesServiceImpl extends ServiceImpl<ProducesMapper, Produces> i
      * @return
      */
     @Override
-    public PageDTO<ProducesVO> queryProduces(ProducesQuery producesQuery) {
+    @CachePut(value="producesCache",key="#producesQuery.pageNo")
+    public Result<PageDTO<ProducesVO>> queryProduces(ProducesQuery producesQuery) {
         String name = producesQuery.getName();
         String origin = producesQuery.getOrigin();
         Integer category = producesQuery.getCategory();
@@ -95,7 +98,7 @@ public class ProducesServiceImpl extends ServiceImpl<ProducesMapper, Produces> i
                 .orderByDesc(Produces::getUpdateTime)
                 .page(page);
 
-        return PageDTO.of(result, ProducesVO.class);
+        return Result.success(PageDTO.of(result, ProducesVO.class));
     }
 
     /**

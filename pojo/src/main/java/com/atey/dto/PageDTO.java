@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import cn.hutool.core.bean.BeanUtil;
 
+import java.io.Serializable;
 import java.util.Collections;
 import java.util.List;
 import java.util.function.Function;
@@ -14,7 +15,8 @@ import java.util.stream.Collectors;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class PageDTO<V> {
+public class PageDTO<V> implements Serializable {
+
     private Long total;
     private Long pages;
     private List<V> list;

@@ -9,6 +9,10 @@ public class MessageConstant {
     public static final String USER_EXIST_UPDATE = "修改失败，用户已存在";
     public static final String PRODUCES_EXIST_SAVE = "添加失败，产品已存在";
     public static final String PRODUCES_EXIST_UPDATE = "修改失败，产品已存在";
+    public static final String CATEGORY_EXIST_SAVE = "添加失败，分类已存在";
+    public static final String CATEGORY_EXIST_UPDATE = "修改失败，分类已存在";
+    public static final String CATEGORY_PRODUCES_DELETE = "删除失败，该分类已关联其他产品";
+    public static final String CATEGORY_PRODUCES_UPDATE = "修改失败，该分类已关联其他产品";
     public static final String CHOOSE_GENDER = "请选择性别";
     public static final String CHOOSE_STATUS = "请选择状态";
     public static final String CHOOSE_TYPE = "请选择权限";

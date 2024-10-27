@@ -1,6 +1,10 @@
 package com.atey.controller.admin;
 
 
+import com.atey.dto.CategoryDTO;
+import com.atey.dto.PageDTO;
+import com.atey.entity.Category;
+import com.atey.query.CategoryQuery;
 import com.atey.result.Result;
 import com.atey.service.ICategoryService;
 import com.atey.vo.CategoryVO;
@@ -8,10 +12,9 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -33,6 +36,7 @@ public class CategoryController {
 
     /**
      * 获取所有分类
+     *
      * @return
      */
     @GetMapping("/queryCategory")
@@ -41,5 +45,75 @@ public class CategoryController {
         log.info("查询所有分类");
         List<CategoryVO> list = categoryService.queryCategory();
         return Result.success(list);
+    }
+
+    /**
+     * 分类分页查询
+     *
+     * @param query
+     * @return
+     */
+    @GetMapping("/page")
+    @ApiOperation("分类分页查询")
+    @Cacheable(cacheNames = "categoryCache", key = "#query.pageNo")
+    public Result<PageDTO<Category>> query(CategoryQuery query) {
+        log.info("分类分页查询{}", query);
+        return categoryService.pageQueryCategory(query);
+    }
+
+    /**
+     * 新增分类
+     *
+     * @param categoryDTO
+     * @return
+     */
+    @PostMapping("/save")
+    @ApiOperation("新增分类")
+    @CacheEvict(cacheNames = "categoryCache",allEntries = true)
+    public Result save(@RequestBody CategoryDTO categoryDTO) {
+        log.info("新增分类{}", categoryDTO);
+        categoryService.saveCategory(categoryDTO);
+        return Result.success();
+    }
+
+    /**
+     * 删除分类
+     *
+     * @param id
+     * @return
+     */
+    @DeleteMapping("/{id}")
+    @ApiOperation("删除分类")
+    @CacheEvict(cacheNames = "categoryCache",allEntries = true)
+    public Result delete(@PathVariable Integer id) {
+        log.info("删除分类{}", id);
+        categoryService.deleteCategory(id);
+        return Result.success();
+    }
+
+    /**
+     * 根据id查询分类
+     *
+     * @param id
+     * @return
+     */
+    @GetMapping("/{id}")
+    @ApiOperation("根据id查询分类")
+    public Result<Category> getById(@PathVariable Integer id) {
+        log.info("根据id查询分类{}", id);
+        Category category = categoryService.getById(id);
+        return Result.success(category);
+    }
+
+    /**
+     * 修改分类
+     */
+    @PutMapping("/update")
+    @ApiOperation("修改分类")
+    @CacheEvict(cacheNames = "categoryCache",allEntries = true)
+    public Result update(@RequestBody CategoryDTO categoryDTO) {
+        log.info("修改分类{}", categoryDTO);
+        categoryService.updateCategory(categoryDTO);
+        return Result.success();
     }
 }
