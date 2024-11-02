@@ -3,6 +3,7 @@ package com.atey.service.impl;
 import cn.hutool.core.bean.BeanUtil;
 import com.atey.constant.DeletedConstant;
 import com.atey.constant.MessageConstant;
+import com.atey.constant.StatusConstant;
 import com.atey.dto.PageDTO;
 import com.atey.dto.ProducesDTO;
 import com.atey.entity.User;
@@ -14,6 +15,7 @@ import com.atey.result.Result;
 import com.atey.service.IProducesService;
 import com.atey.vo.ProducesVO;
 import com.atey.vo.UserVO;
+import com.baomidou.mybatisplus.extension.conditions.query.QueryChainWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.AllArgsConstructor;
@@ -22,7 +24,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static net.sf.jsqlparser.util.validation.metadata.NamedObject.user;
 
@@ -38,22 +42,25 @@ import static net.sf.jsqlparser.util.validation.metadata.NamedObject.user;
 @AllArgsConstructor
 public class ProducesServiceImpl extends ServiceImpl<ProducesMapper, Produces> implements IProducesService {
     private final ProducesMapper producesMapper;
+
     /**
      * 新增产品
+     *
      * @param producesDTO
      * @return
      */
     @Override
     public void saveProduces(ProducesDTO producesDTO) {
-        if(producesDTO.getStatus()==null){
+
+        if (producesDTO.getStatus() == null) {
             throw new BaseException(MessageConstant.CHOOSE_STATUS);
         }
-        if(producesDTO.getCategory()==null){
+        if (producesDTO.getCategory() == null) {
             throw new BaseException(MessageConstant.CHOOSE_CATEGORY);
         }
 
         Produces produces = new Produces();
-        BeanUtil.copyProperties(producesDTO,produces);
+        BeanUtil.copyProperties(producesDTO, produces);
         produces.setCreateTime(LocalDateTime.now());
         produces.setUpdateTime(LocalDateTime.now());
         produces.setDeleted(DeletedConstant.NOT_DELETED);
@@ -75,11 +82,12 @@ public class ProducesServiceImpl extends ServiceImpl<ProducesMapper, Produces> i
 
     /**
      * 产品分页查询
+     *
      * @param producesQuery
      * @return
      */
     @Override
-    @CachePut(value="producesCache",key="#producesQuery.toString() + '-' + #producesQuery.pageNo.toString()")
+    @CachePut(value = "producesCache", key = "#producesQuery.toString() + '-' + #producesQuery.pageNo.toString()")
     public Result<PageDTO<ProducesVO>> queryProduces(ProducesQuery producesQuery) {
         String name = producesQuery.getName();
         String origin = producesQuery.getOrigin();
@@ -92,10 +100,10 @@ public class ProducesServiceImpl extends ServiceImpl<ProducesMapper, Produces> i
         Page<Produces> result = lambdaQuery()
                 .like(name != null, Produces::getName, name)
                 .like(origin != null, Produces::getOrigin, origin)
-                .eq(category!=null,Produces::getCategory,category)
+                .eq(category != null, Produces::getCategory, category)
                 .eq(Produces::getDeleted, DeletedConstant.NOT_DELETED)
                 .between(startCreateTime != null && endCreateTime != null, Produces::getCreateTime, startCreateTime, endCreateTime)
-                .orderByDesc(Produces::getUpdateTime)
+                .orderByDesc(Produces::getCreateTime)
                 .page(page);
 
         return Result.success(PageDTO.of(result, ProducesVO.class));
@@ -103,6 +111,7 @@ public class ProducesServiceImpl extends ServiceImpl<ProducesMapper, Produces> i
 
     /**
      * 删除产品
+     *
      * @param id
      * @return
      */
@@ -118,6 +127,7 @@ public class ProducesServiceImpl extends ServiceImpl<ProducesMapper, Produces> i
 
     /**
      * 根据id查询产品
+     *
      * @param id
      * @return
      */
@@ -131,6 +141,7 @@ public class ProducesServiceImpl extends ServiceImpl<ProducesMapper, Produces> i
 
     /**
      * 修改产品
+     *
      * @param producesDTO
      * @return
      */
@@ -154,5 +165,26 @@ public class ProducesServiceImpl extends ServiceImpl<ProducesMapper, Produces> i
         if (list.size() >= 2) {
             throw new BaseException(MessageConstant.PRODUCES_EXIST_UPDATE);
         }
+    }
+
+    /**
+     * 获取所有的产品
+     *
+     * @return
+     */
+    @Override
+    public List<ProducesVO> queryALl() {
+        List<Produces> list = lambdaQuery()
+                .eq(Produces::getDeleted, DeletedConstant.NOT_DELETED)
+                .eq(Produces::getStatus, StatusConstant.ENABLE)
+                .list();
+        List<ProducesVO> voList = new ArrayList<>();
+
+        for (Produces produces : list) {
+            ProducesVO producesVO = new ProducesVO();
+            BeanUtil.copyProperties(produces, producesVO);
+            voList.add(producesVO);
+        }
+        return voList;
     }
 }

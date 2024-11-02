@@ -26,7 +26,7 @@ import java.util.List;
  * @author atey
  * @since 2024-10-23
  */
-@RestController
+@RestController("adminProducesController")
 @RequestMapping("/admin/produces")
 @Api(tags="管理端产品管理相关接口")
 @Slf4j

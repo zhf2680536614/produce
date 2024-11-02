@@ -8,6 +8,8 @@ import com.atey.result.Result;
 import com.atey.vo.ProducesVO;
 import com.baomidou.mybatisplus.extension.service.IService;
 
+import java.util.List;
+
 /**
  * <p>
  * 农产品 服务类
@@ -52,4 +54,10 @@ public interface IProducesService extends IService<Produces> {
      * @return
      */
     void updateProduces(ProducesDTO producesDTO);
+
+    /**
+     * 获取所有的产品
+     * @return
+     */
+    List<ProducesVO> queryALl();
 }

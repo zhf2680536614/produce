@@ -59,7 +59,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
                 .eq(phoneNumber != null, User::getPhoneNumber, phoneNumber)
                 .eq(User::getDeleted, DeletedConstant.NOT_DELETED)
                 .between(startCreateTime != null && endCreateTime != null, User::getCreateTime, startCreateTime, endCreateTime)
-                .orderByDesc(User::getUpdateTime)
+                .orderByDesc(User::getCreateTime)
                 .page(page);
 
         return Result.success(PageDTO.of(result, UserVO.class));

@@ -84,7 +84,7 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
                 .like(name != null, Category::getName, name)
                 .eq(Category::getDeleted, DeletedConstant.NOT_DELETED)
                 .between(startCreateTime != null && endCreateTime != null, Category::getCreateTime, startCreateTime, endCreateTime)
-                .orderByDesc(Category::getUpdateTime)
+                .orderByDesc(Category::getCreateTime)
                 .page(page);
 
         return Result.success(PageDTO.of(result, Category.class));
