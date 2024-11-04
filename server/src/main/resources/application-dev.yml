@@ -8,9 +8,9 @@ atey:
     password: 160814
   alioss:
     endpoint: oss-cn-beijing.aliyuncs.com
-    access-key-id: your-access-key-id
-    access-key-secret: your-access-key-secret
-    bucket-name: your-bucket-name
+    access-key-id: LTAI5tNpo9qxJiRfbRp1vjx3
+    access-key-secret: UNxAKGbv6SOqNBHp8II53M3OP1zNpw
+    bucket-name: produces
   redis:
     host: localhost
     port: 6379

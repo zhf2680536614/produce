@@ -5,6 +5,7 @@ import com.atey.dto.UserDTO;
 import com.atey.query.UserQuery;
 import com.atey.entity.User;
 import com.atey.result.Result;
+import com.atey.vo.UserAddressVO;
 import com.atey.vo.UserVO;
 import com.baomidou.mybatisplus.extension.service.IService;
 
@@ -65,4 +66,11 @@ public interface IUserService extends IService<User> {
      * @return
      */
     User adminLogin(UserDTO userDTO);
+
+    /**
+     * 根据id获取用户信息及收货地址
+     * @param id
+     * @return
+     */
+    UserAddressVO getByIdUserWithAddress(Long id);
 }

@@ -15,4 +15,9 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface AddressBookMapper extends BaseMapper<AddressBook> {
 
+    /**
+     * 用户端修改收货地址
+     * @param addressBook
+     */
+    void update(AddressBook addressBook);
 }

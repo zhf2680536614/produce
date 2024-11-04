@@ -65,9 +65,6 @@ public class ProducesServiceImpl extends ServiceImpl<ProducesMapper, Produces> i
         produces.setUpdateTime(LocalDateTime.now());
         produces.setDeleted(DeletedConstant.NOT_DELETED);
 
-        // TODO 图片设置
-        produces.setImage("https://th.bing.com/th/id/R.e636e5f9ae0388421d048d93ecfbc5b8?rik=XWWt54hFT3Pknw&pid=ImgRaw&r=0");
-
         //查询数据库中产品是否存在
         Produces one = lambdaQuery()
                 .eq(producesDTO.getName() != null, Produces::getName, producesDTO.getName())

@@ -17,5 +17,5 @@ public class MessageConstant {
     public static final String CHOOSE_STATUS = "请选择状态";
     public static final String CHOOSE_TYPE = "请选择权限";
     public static final String CHOOSE_CATEGORY = "请选择分类";
-
+    public static final String ADDRESS_COUNT_PLUS = "您的收货地址已超出上限，添加失败";
 }

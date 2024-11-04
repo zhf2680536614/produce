@@ -60,7 +60,6 @@ public class MarketProducesController {
     @ApiOperation("根据id查询上架产品")
     public Result<MarketProducesVO> getById(@PathVariable Integer id) {
         log.info("根据id查询上架产品{}",id);
-
         return Result.success(marketProducesService.getByIdMP(id));
     }
 }

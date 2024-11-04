@@ -77,7 +77,6 @@ public class UserController {
      */
     @GetMapping("/{id}")
     @ApiOperation("根据id查询用户")
-
     public Result<UserVO> getById(@PathVariable Long id) {
         log.info("根据id查询用户{}", id);
         UserVO userVO = userService.getByIdUser(id);
@@ -94,7 +93,7 @@ public class UserController {
     @ApiOperation("修改用户")
     @CacheEvict(cacheNames = "userCache", allEntries = true)
     public Result update(@RequestBody UserDTO userDTO) {
-        log.info("修改用户{}", userDTO);
+        log.info("用户管理修改用户{}", userDTO);
         userService.updateUser(userDTO);
         return Result.success();
     }

@@ -1,28 +1,31 @@
 package com.atey.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
-import com.atey.constant.DeletedConstant;
-import com.atey.constant.MessageConstant;
-import com.atey.constant.StatusConstant;
-import com.atey.constant.TypeConstant;
+import com.atey.constant.*;
 import com.atey.dto.PageDTO;
 import com.atey.dto.UserDTO;
+import com.atey.entity.AddressBook;
 import com.atey.query.UserQuery;
 import com.atey.entity.User;
 import com.atey.exception.BaseException;
 import com.atey.mapper.UserMapper;
 import com.atey.result.Result;
 import com.atey.service.IUserService;
+import com.atey.vo.AddressBookVO;
+import com.atey.vo.UserAddressVO;
 import com.atey.vo.UserVO;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.baomidou.mybatisplus.extension.toolkit.Db;
 import lombok.AllArgsConstructor;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * <p>
@@ -88,9 +91,6 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
         user.setDeleted(DeletedConstant.NOT_DELETED);
         user.setCreateTime(LocalDateTime.now());
         user.setUpdateTime(LocalDateTime.now());
-
-        // TODO 图片设置
-        user.setImage("https://th.bing.com/th/id/R.e636e5f9ae0388421d048d93ecfbc5b8?rik=XWWt54hFT3Pknw&pid=ImgRaw&r=0");
 
         //查询数据库中用户名是否存在
         User one = lambdaQuery()
@@ -212,5 +212,40 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
         }
 
         return one;
+    }
+
+    /**
+     * 根据id获取用户信息及收货地址
+     * @param id
+     * @return
+     */
+    @Override
+    public UserAddressVO getByIdUserWithAddress(Long id) {
+        UserVO userVO = getByIdUser(id);
+        UserAddressVO userAddressVO = new UserAddressVO();
+        BeanUtil.copyProperties(userVO, userAddressVO);
+
+        //获取用户的收货地址
+        List<AddressBook> addressList = Db.lambdaQuery(AddressBook.class)
+                .eq(AddressBook::getUserId, id)
+                .list();
+
+        List<AddressBookVO> addressBookVOS = new ArrayList<>();
+        short number = 0;
+        for (AddressBook addressBook : addressList) {
+
+            AddressBookVO addressBookVO = new AddressBookVO();
+            BeanUtil.copyProperties(addressBook, addressBookVO);
+            if(Objects.equals(addressBook.getIsDefault(), DefaultConstant.IS_DEFAULT)){
+                addressBookVO.setIsDefault(true);
+            }else{
+                addressBookVO.setIsDefault(false);
+            }
+            number++;
+            addressBookVO.setNumber(number);
+            addressBookVOS.add(addressBookVO);
+        }
+        userAddressVO.setAddress(addressBookVOS);
+        return userAddressVO;
     }
 }

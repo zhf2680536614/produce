@@ -8,6 +8,7 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -24,8 +25,8 @@ public class uploadController {
     private final AliOssUtil aliOssUtil;
 
     @PostMapping("/upload")
-    public Result<String> upload(MultipartFile file) {
-        log.info("文件上传：{}", file);
+    public Result<String> upload(@RequestParam("file") MultipartFile file) {
+        log.info("文件上传：{}", file.getOriginalFilename());
 
         try {
             //原始文件名

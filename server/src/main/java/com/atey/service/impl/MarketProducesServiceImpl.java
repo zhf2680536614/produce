@@ -63,9 +63,6 @@ public class MarketProducesServiceImpl extends ServiceImpl<MarketProducesMapper,
         marketProduces.setUserId(marketProducesDTO.getUserId());
         marketProduces.setDeleted(DeletedConstant.NOT_DELETED);
 
-        // TODO 图片设置
-        marketProduces.setImage("https://th.bing.com/th/id/R.e636e5f9ae0388421d048d93ecfbc5b8?rik=XWWt54hFT3Pknw&pid=ImgRaw&r=0");
-
         save(marketProduces);
 
     }
