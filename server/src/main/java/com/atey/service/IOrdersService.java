@@ -1,6 +1,8 @@
 package com.atey.service;
 
+import com.atey.dto.OrdersDTO;
 import com.atey.entity.Orders;
+import com.atey.vo.OrdersVO;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 /**
@@ -13,4 +15,10 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface IOrdersService extends IService<Orders> {
 
+    /**
+     * 用户端新增订单
+     * @param ordersDTO
+     * @return
+     */
+    OrdersVO saveOrders(OrdersDTO ordersDTO);
 }

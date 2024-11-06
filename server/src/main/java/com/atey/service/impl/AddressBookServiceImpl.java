@@ -12,6 +12,7 @@ import com.atey.service.IAddressBookService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.Date;
@@ -62,24 +63,36 @@ public class AddressBookServiceImpl extends ServiceImpl<AddressBookMapper, Addre
      * 用户端修改收货地址
      */
     @Override
+    @Transactional
     public void updateAddress(AddressBookDTO addressBookDTO) {
         //判断默认收货地址
-        //如果他是默认收获地址，则将其他的收货地址全部改为非默认
 
+        List<AddressBook> list = lambdaQuery()
+                .eq(AddressBook::getUserId, addressBookDTO.getUserId())
+                .list();
         if(Objects.equals(addressBookDTO.getIsDefault(), DefaultConstant.IS_DEFAULT)){
-            //获取该用户的所有收货地址，将
-            List<AddressBook> list = lambdaQuery()
-                    .eq(AddressBook::getUserId, addressBookDTO.getUserId())
-                    .list();
-
+            //获取该用户的所有收货地址，将其他收货地址全部改为非默认
             for (AddressBook addressBook : list) {
-                if(addressBook.getId()!=addressBookDTO.getId()){
+                if(!Objects.equals(addressBook.getId(), addressBookDTO.getId())){
                     addressBook.setIsDefault(DefaultConstant.IS_NOT_DEFAULT);
                     addressBookMapper.update(addressBook);
                 }
             }
-        };
+        }
 
         addressBookMapper.update(addressBookDTO);
+        //修改之后判断是否存在默认地址
+        int i = 0;
+        List<AddressBook> list2 = lambdaQuery()
+                .eq(AddressBook::getUserId, addressBookDTO.getUserId())
+                .list();
+        for (AddressBook addressBook : list2) {
+            if(Objects.equals(addressBook.getIsDefault(), DefaultConstant.IS_DEFAULT)){
+                i++;
+            }
+        }
+        if(i == 0){
+            throw new BaseException(MessageConstant.CHOOSE_DEFAULT_ADDRESS);
+        }
     }
 }

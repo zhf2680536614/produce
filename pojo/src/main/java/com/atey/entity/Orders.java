@@ -47,6 +47,9 @@ public class Orders implements Serializable {
     @ApiModelProperty(value = "收货地址id")
     private Integer addressBookId;
 
+    @ApiModelProperty(value = "收货人姓名")
+    private String consigneeName;
+
     @ApiModelProperty(value = "收货地址名称")
     private String addressBookName;
 
@@ -61,12 +64,6 @@ public class Orders implements Serializable {
 
     @ApiModelProperty(value = "订单取消时间")
     private LocalDateTime cancelTime;
-
-    @ApiModelProperty(value = "订单取消原因")
-    private String cancelReason;
-
-    @ApiModelProperty(value = "订单总金额")
-    private Double amount;
 
     @ApiModelProperty(value = "备注")
     private String remark;

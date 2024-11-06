@@ -50,6 +50,9 @@ public class OrdersDetail implements Serializable {
     @ApiModelProperty(value = "产品单价")
     private Double unitPrice;
 
+    @ApiModelProperty(value = "订单总金额")
+    private Double amount;
+
     @ApiModelProperty(value = "创建时间")
     private LocalDateTime createTime;
 

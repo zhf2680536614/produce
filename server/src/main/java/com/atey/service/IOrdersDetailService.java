@@ -1,6 +1,8 @@
 package com.atey.service;
 
+import com.atey.dto.OrdersDetailsDTO;
 import com.atey.entity.OrdersDetail;
+import com.atey.vo.OrdersDetailVO;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 /**
@@ -13,4 +15,9 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface IOrdersDetailService extends IService<OrdersDetail> {
 
+    /**
+     * 新增订单明细表
+     * @param ordersDetailsDTO
+     */
+    OrdersDetailVO saveOrdersDetails(OrdersDetailsDTO ordersDetailsDTO);
 }
