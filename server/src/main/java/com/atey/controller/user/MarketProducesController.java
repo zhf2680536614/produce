@@ -56,6 +56,11 @@ public class MarketProducesController {
         return marketProducesService.queryAll(marketConditionDTO);
     }
 
+    /**
+     * 根据id查询上架产品
+     * @param id
+     * @return
+     */
     @GetMapping("/{id}")
     @ApiOperation("根据id查询上架产品")
     public Result<MarketProducesVO> getById(@PathVariable Integer id) {

@@ -25,9 +25,7 @@ import org.springframework.stereotype.Service;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 /**
  * <p>
@@ -93,7 +91,7 @@ public class MarketProducesServiceImpl extends ServiceImpl<MarketProducesMapper,
         }
 
         Integer userId = -1;
-        if(BeanUtil.isNotEmpty(user)){
+        if (BeanUtil.isNotEmpty(user)) {
             userId = user.getId();
         }
 
@@ -164,6 +162,7 @@ public class MarketProducesServiceImpl extends ServiceImpl<MarketProducesMapper,
 
     /**
      * 根据id查询上架产品
+     *
      * @param id
      * @return
      */
@@ -183,4 +182,5 @@ public class MarketProducesServiceImpl extends ServiceImpl<MarketProducesMapper,
         marketProducesVO.setUsername(user.getUsername());
         return marketProducesVO;
     }
+
 }

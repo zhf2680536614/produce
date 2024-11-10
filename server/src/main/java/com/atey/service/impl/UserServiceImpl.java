@@ -228,10 +228,13 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
         //获取用户的收货地址
         List<AddressBook> addressList = Db.lambdaQuery(AddressBook.class)
                 .eq(AddressBook::getUserId, id)
+                .eq(AddressBook::getDeleted, DeletedConstant.NOT_DELETED)
                 .list();
 
         List<AddressBookVO> addressBookVOS = new ArrayList<>();
+
         short number = 0;
+
         for (AddressBook addressBook : addressList) {
 
             AddressBookVO addressBookVO = new AddressBookVO();

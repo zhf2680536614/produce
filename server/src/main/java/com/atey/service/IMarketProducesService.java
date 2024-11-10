@@ -37,4 +37,5 @@ public interface IMarketProducesService extends IService<MarketProduces> {
      * @return
      */
     MarketProducesVO getByIdMP(Integer id);
+
 }

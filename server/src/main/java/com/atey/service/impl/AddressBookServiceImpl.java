@@ -51,11 +51,17 @@ public class AddressBookServiceImpl extends ServiceImpl<AddressBookMapper, Addre
         }
 
         AddressBook addressBook = new AddressBook();
-        BeanUtil.copyProperties(addressBookDTO,addressBook);
+        BeanUtil.copyProperties(addressBookDTO, addressBook);
         addressBook.setCreateTime(LocalDateTime.now());
         addressBook.setUpdateTime(LocalDateTime.now());
         addressBook.setDeleted(DeletedConstant.NOT_DELETED);
-        addressBook.setIsDefault(DefaultConstant.IS_NOT_DEFAULT);
+        //判断该用户收货地址是否为0 如果是0则将该地址设置为默认地址
+        if (list.isEmpty()) {
+            addressBook.setIsDefault(DefaultConstant.IS_DEFAULT);
+        } else {
+            addressBook.setIsDefault(DefaultConstant.IS_NOT_DEFAULT);
+        }
+
         this.save(addressBook);
     }
 
@@ -70,10 +76,10 @@ public class AddressBookServiceImpl extends ServiceImpl<AddressBookMapper, Addre
         List<AddressBook> list = lambdaQuery()
                 .eq(AddressBook::getUserId, addressBookDTO.getUserId())
                 .list();
-        if(Objects.equals(addressBookDTO.getIsDefault(), DefaultConstant.IS_DEFAULT)){
+        if (Objects.equals(addressBookDTO.getIsDefault(), DefaultConstant.IS_DEFAULT)) {
             //获取该用户的所有收货地址，将其他收货地址全部改为非默认
             for (AddressBook addressBook : list) {
-                if(!Objects.equals(addressBook.getId(), addressBookDTO.getId())){
+                if (!Objects.equals(addressBook.getId(), addressBookDTO.getId())) {
                     addressBook.setIsDefault(DefaultConstant.IS_NOT_DEFAULT);
                     addressBookMapper.update(addressBook);
                 }
@@ -87,12 +93,25 @@ public class AddressBookServiceImpl extends ServiceImpl<AddressBookMapper, Addre
                 .eq(AddressBook::getUserId, addressBookDTO.getUserId())
                 .list();
         for (AddressBook addressBook : list2) {
-            if(Objects.equals(addressBook.getIsDefault(), DefaultConstant.IS_DEFAULT)){
+            if (Objects.equals(addressBook.getIsDefault(), DefaultConstant.IS_DEFAULT)) {
                 i++;
             }
         }
-        if(i == 0){
+        if (i == 0) {
             throw new BaseException(MessageConstant.CHOOSE_DEFAULT_ADDRESS);
         }
+    }
+
+    /**
+     * 用户端删除收获地址
+     * @param id
+     */
+    @Override
+    public void delete(Integer id) {
+        AddressBook addressBook = lambdaQuery()
+                .eq(AddressBook::getId, id)
+                .one();
+        addressBook.setDeleted(DeletedConstant.DELETED);
+        addressBookMapper.update(addressBook);
     }
 }

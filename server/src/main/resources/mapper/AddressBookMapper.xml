@@ -16,6 +16,9 @@
             <if test="isDefault!=null and isDefault!=''">
                 is_default = #{isDefault},
             </if>
+            <if test="deleted!=null">
+                deleted = #{deleted},
+            </if>
         </set>
         where id = #{id}
     </update>

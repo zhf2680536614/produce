@@ -24,4 +24,10 @@ public interface IAddressBookService extends IService<AddressBook> {
      * 用户端修改收货地址
      */
     void updateAddress(AddressBookDTO addressBookDTO);
+
+    /**
+     * 用户端删除收货地址
+     * @param id
+     */
+    void delete(Integer id);
 }

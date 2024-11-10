@@ -18,8 +18,10 @@ import com.baomidou.mybatisplus.extension.toolkit.Db;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 /**
  * <p>
@@ -33,8 +35,10 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class OrdersServiceImpl extends ServiceImpl<OrdersMapper, Orders> implements IOrdersService {
     private final OrdersMapper ordersMapper;
+
     /**
      * 用户端新增订单
+     *
      * @param ordersDTO
      * @return
      */
@@ -44,14 +48,17 @@ public class OrdersServiceImpl extends ServiceImpl<OrdersMapper, Orders> impleme
         String username = ordersDTO.getUsername();
         String merchantName = ordersDTO.getMerchantName();
 
-        //利用时间戳生成订单号
-        long current = System.currentTimeMillis();
-        String orderNumber = String.valueOf(current);
+        //利用UUID生成订单号
+        UUID uuid = UUID.randomUUID();
+        // 将UUID转换为字符串，并替换掉其中的'-'字符，得到一个更简洁的订单号形式
+
+        String orderNumber = uuid.toString().replace("-", "");
 
         //查询该用户的默认地址
         AddressBook address = Db.lambdaQuery(AddressBook.class)
                 .eq(AddressBook::getUserId, userId)
                 .eq(AddressBook::getIsDefault, DefaultConstant.IS_DEFAULT)
+                .eq(AddressBook::getDeleted,DeletedConstant.NOT_DELETED)
                 .one();
         Integer addressBookId = address.getId();
         String consigneeName = address.getConsigneeName();
@@ -79,12 +86,15 @@ public class OrdersServiceImpl extends ServiceImpl<OrdersMapper, Orders> impleme
                 .eq(Orders::getOrderNumber, orderNumber)
                 .one();
         OrdersVO ordersVO = new OrdersVO();
+
         BeanUtil.copyProperties(one, ordersVO);
+
         return ordersVO;
     }
 
     /**
      * 修改用户收货地址
+     *
      * @param updateOrdersDTO
      */
     @Override
@@ -103,6 +113,7 @@ public class OrdersServiceImpl extends ServiceImpl<OrdersMapper, Orders> impleme
 
     /**
      * 根据id查询订单
+     *
      * @param id
      * @return
      */
@@ -116,10 +127,12 @@ public class OrdersServiceImpl extends ServiceImpl<OrdersMapper, Orders> impleme
 
     /**
      * 确认购买
+     *
      * @param updateOrdersDTO
      */
     @Override
-    public void confirmOrders(UpdateOrdersDTO updateOrdersDTO) {
+    @Transactional
+    public synchronized void confirmOrders(UpdateOrdersDTO updateOrdersDTO) {
         Orders orders = new Orders();
         orders.setId(updateOrdersDTO.getId());
         orders.setRemark(updateOrdersDTO.getRemark());
@@ -158,7 +171,7 @@ public class OrdersServiceImpl extends ServiceImpl<OrdersMapper, Orders> impleme
         MarketProduces one1 = Db.lambdaQuery(MarketProduces.class)
                 .eq(MarketProduces::getId, marketProducesId)
                 .one();
-        if(one1.getWeight() == 0){
+        if (one1.getWeight() == 0) {
             Db.lambdaUpdate(MarketProduces.class)
                     .eq(MarketProduces::getId, marketProducesId)
                     .set(MarketProduces::getDeleted, DeletedConstant.DELETED)

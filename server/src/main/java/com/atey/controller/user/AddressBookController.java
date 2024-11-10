@@ -52,4 +52,17 @@ public class AddressBookController {
         addressBookService.updateAddress(addressBookDTO);
         return Result.success();
     }
+
+    /**
+     * 用户端删除收货地址
+     * @param id
+     * @return
+     */
+    @DeleteMapping("/{id}")
+    @ApiOperation("用户端删除收货地址")
+    public Result delete(@PathVariable Integer id) {
+        log.info("用户端删除收货地址{}",id);
+        addressBookService.delete(id);
+        return Result.success();
+    }
 }
