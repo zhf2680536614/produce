@@ -1,8 +1,12 @@
 package com.atey.mapper;
 
+import com.atey.entity.ChartCategory;
 import com.atey.entity.OrdersDetail;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Select;
+
+import java.util.List;
 
 /**
  * <p>
@@ -15,4 +19,5 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface OrdersDetailMapper extends BaseMapper<OrdersDetail> {
 
+    List<ChartCategory> chartCategory();
 }

@@ -3,8 +3,10 @@ package com.atey.entity;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
+
 import java.time.LocalDateTime;
 import java.io.Serializable;
+
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -23,7 +25,7 @@ import lombok.experimental.Accessors;
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
 @TableName("orders_detail")
-@ApiModel(value="OrdersDetail对象", description="订单明细表")
+@ApiModel(value = "OrdersDetail对象", description = "订单明细表")
 public class OrdersDetail implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -52,6 +54,9 @@ public class OrdersDetail implements Serializable {
 
     @ApiModelProperty(value = "订单总金额")
     private Double amount;
+
+    @ApiModelProperty(value = "订单明细状态")
+    private Integer status;
 
     @ApiModelProperty(value = "创建时间")
     private LocalDateTime createTime;

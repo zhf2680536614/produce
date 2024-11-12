@@ -4,7 +4,6 @@ import lombok.Data;
 
 @Data
 public class OrdersDetailsDTO {
-
     private String produceName;
     private String produceCategory;
     private Double unitPrice;

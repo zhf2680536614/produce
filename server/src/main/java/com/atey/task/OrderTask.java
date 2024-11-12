@@ -7,16 +7,16 @@ import com.atey.constant.OrderStatus;
 import com.atey.constant.StatusConstant;
 import com.atey.entity.MarketProduces;
 import com.atey.entity.MarketProducesPlus;
-import com.atey.mapper.MarketProducesMapper;
+import com.atey.entity.OrdersDetail;
 import com.atey.mapper.MarketProducesPlusMapper;
 import com.atey.mapper.OrdersMapper;
 import com.atey.entity.Orders;
 import com.atey.service.IMarketProducesPlusService;
 import com.atey.service.IOrdersService;
-import com.atey.vo.MarketProducesVO;
 import com.baomidou.mybatisplus.extension.toolkit.Db;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
@@ -37,10 +37,11 @@ public class OrderTask {
      * 自动处理未确认的订单
      */
     @Scheduled(cron = "0 * * * * *")
+    @CacheEvict(cacheNames = "ordersCache", allEntries = true)
     public void operateOutTimeOrder() {
         log.info("自动处理超时未支付订单 : {}", LocalDateTime.now());
 
-        //查询订单表中是否存在未支付且超时的订单 超时时间为15分钟
+        //查询订单表中是否存在未支付且超时的订单 超时时间为18分钟
         LocalDateTime outTime = LocalDateTime.now().plusMinutes(-15);
 
         List<Orders> outList = ordersService.lambdaQuery()
@@ -54,12 +55,18 @@ public class OrderTask {
                 orders.setStatus(OrderStatus.cancel);
                 orders.setCancelTime(LocalDateTime.now());
                 ordersMapper.update(orders);
+
+                Db.lambdaUpdate(OrdersDetail.class)
+                        .eq(OrdersDetail::getOrdersId,orders.getId())
+                        .set(OrdersDetail::getStatus, OrderStatus.cancel)
+                        .update();
             }
+
         }
     }
 
     //自动构造秒杀产品
-    @Scheduled(cron = "0 */15 * * * *")
+    @Scheduled(cron = "0 */1 * * * *")
     public void createMPL() {
         log.info("自动处理秒杀产品 : {}", LocalDateTime.now());
         //删除秒杀产品数据库数据

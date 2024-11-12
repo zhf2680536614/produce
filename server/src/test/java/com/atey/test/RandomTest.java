@@ -1,12 +1,15 @@
 package com.atey.test;
 
+import com.atey.service.IOrdersDetailService;
+import lombok.AllArgsConstructor;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 
+@AllArgsConstructor
 public class RandomTest {
-
+private final IOrdersDetailService ordersDetailService;
     @Test
     public void test() {
         LocalDateTime localDateTime1 = LocalDateTime.now();
@@ -20,6 +23,6 @@ public class RandomTest {
 
     @Test
     public void test2(){
-
+        ordersDetailService.chartCategory();
     }
 }

@@ -1,11 +1,10 @@
-package com.atey.controller.user;
+package com.atey.controller.admin;
 
 
 import com.atey.dto.OrdersDetailsDTO;
 import com.atey.result.Result;
 import com.atey.service.IOrdersDetailService;
 import com.atey.vo.OrdersDetailVO;
-import com.atey.vo.UserVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
@@ -20,26 +19,13 @@ import org.springframework.web.bind.annotation.*;
  * @author atey
  * @since 2024-10-23
  */
-@RestController("UserOrdersDetailsController")
-@RequestMapping("/user/ordersDetail")
+@RestController("AdminOrdersDetailsController")
+@RequestMapping("/admin/ordersDetail")
 @AllArgsConstructor
 @Slf4j
 @Api(tags="订单明细相关接口")
 public class OrdersDetailController {
     private final IOrdersDetailService ordersDetailService;
-
-    /**
-     * 新增订单明细表
-     * @param ordersDetailsDTO
-     * @return
-     */
-    @PostMapping("/save")
-    @ApiOperation("新增订单明细表")
-    public Result<OrdersDetailVO> save(@RequestBody OrdersDetailsDTO ordersDetailsDTO) {
-        log.info("新增订单明细表{}", ordersDetailsDTO);
-        OrdersDetailVO result = ordersDetailService.saveOrdersDetails(ordersDetailsDTO);
-        return Result.success(result);
-    }
 
     /**
      * 根据id查询订单明细
