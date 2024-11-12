@@ -93,14 +93,18 @@ public class OrderTask {
             set.add(index);
         }
 
+        List<MarketProducesPlus> listPlus = new ArrayList<>();
+
         for (int index : set) {
             MarketProduces marketProduces = list.get(index);
             MarketProducesPlus marketProducesPlus = new MarketProducesPlus();
             BeanUtil.copyProperties(marketProduces, marketProducesPlus);
             marketProducesPlus.setCreateTime(LocalDateTime.now());
             marketProducesPlus.setUpdateTime(LocalDateTime.now());
-            marketProducesPlusService.save(marketProducesPlus);
+            listPlus.add(marketProducesPlus);
         }
+
+        marketProducesPlusService.saveBatch(listPlus);
 
     }
 }
