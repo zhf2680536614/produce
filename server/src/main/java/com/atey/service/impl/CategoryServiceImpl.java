@@ -24,7 +24,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -54,15 +53,7 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
                 .eq(Category::getDeleted, DeletedConstant.NOT_DELETED)
                 .list();
 
-        List<CategoryVO> categoryVOList = new ArrayList<>();
-
-        for (Category category : list) {
-            CategoryVO categoryVO = new CategoryVO();
-            BeanUtil.copyProperties(category, categoryVO);
-            categoryVOList.add(categoryVO);
-        }
-
-        return categoryVOList;
+        return BeanUtil.copyToList(list, CategoryVO.class);
     }
 
     /**

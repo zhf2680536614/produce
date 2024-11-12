@@ -10,6 +10,9 @@ public class OrdersDTO {
     //用户名
     private String username;
 
+    //商家id
+    private Integer merchantId;
+
     //商家名称
     private String merchantName;
 }

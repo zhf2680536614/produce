@@ -4,18 +4,16 @@ package com.atey.controller.user;
 import com.atey.dto.OrdersDTO;
 import com.atey.dto.PageDTO;
 import com.atey.dto.UpdateOrdersDTO;
-import com.atey.entity.Orders;
-import com.atey.query.OrdersQuery;
+import com.atey.query.UserOrdersQuery;
 import com.atey.result.Result;
 import com.atey.service.IOrdersService;
 import com.atey.vo.OrdersVO;
+import com.atey.vo.UserOrdersVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 /**
  * <p>
@@ -100,13 +98,13 @@ public class OrdersController {
 
     /**
      * 订单分页查询
-     * @param ordersQuery
+     * @param userOrdersQuery
      * @return
      */
     @GetMapping("/page")
-    @ApiOperation("订单分页查询")
-    public Result<PageDTO<OrdersVO>> getOrdersPage(OrdersQuery ordersQuery){
-        log.info("订单分页查询{}",ordersQuery);
-        return ordersService.pageQuery(ordersQuery);
+    @ApiOperation("用户端订单分页查询")
+    public Result<PageDTO<UserOrdersVO>> getOrdersPage(UserOrdersQuery userOrdersQuery){
+        log.info("用户端订单分页查询{}",userOrdersQuery);
+        return ordersService.pageQueryUser(userOrdersQuery);
     }
 }

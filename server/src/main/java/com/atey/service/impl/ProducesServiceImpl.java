@@ -6,7 +6,6 @@ import com.atey.constant.MessageConstant;
 import com.atey.constant.StatusConstant;
 import com.atey.dto.PageDTO;
 import com.atey.dto.ProducesDTO;
-import com.atey.entity.User;
 import com.atey.query.ProducesQuery;
 import com.atey.entity.Produces;
 import com.atey.exception.BaseException;
@@ -14,8 +13,6 @@ import com.atey.mapper.ProducesMapper;
 import com.atey.result.Result;
 import com.atey.service.IProducesService;
 import com.atey.vo.ProducesVO;
-import com.atey.vo.UserVO;
-import com.baomidou.mybatisplus.extension.conditions.query.QueryChainWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.AllArgsConstructor;
@@ -24,11 +21,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
-
-import static net.sf.jsqlparser.util.validation.metadata.NamedObject.user;
 
 /**
  * <p>
@@ -175,13 +168,7 @@ public class ProducesServiceImpl extends ServiceImpl<ProducesMapper, Produces> i
                 .eq(Produces::getDeleted, DeletedConstant.NOT_DELETED)
                 .eq(Produces::getStatus, StatusConstant.ENABLE)
                 .list();
-        List<ProducesVO> voList = new ArrayList<>();
 
-        for (Produces produces : list) {
-            ProducesVO producesVO = new ProducesVO();
-            BeanUtil.copyProperties(produces, producesVO);
-            voList.add(producesVO);
-        }
-        return voList;
+        return BeanUtil.copyToList(list,ProducesVO.class);
     }
 }

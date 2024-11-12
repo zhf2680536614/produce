@@ -10,22 +10,21 @@ import com.atey.dto.UpdateOrdersDTO;
 import com.atey.entity.*;
 import com.atey.mapper.OrdersMapper;
 import com.atey.query.OrdersQuery;
+import com.atey.query.UserOrdersQuery;
 import com.atey.result.Result;
 import com.atey.service.IOrdersService;
 import com.atey.vo.OrdersVO;
-import com.atey.vo.UserVO;
+import com.atey.vo.UserOrdersVO;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.baomidou.mybatisplus.extension.toolkit.Db;
 import lombok.AllArgsConstructor;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.UUID;
 
 /**
@@ -53,6 +52,7 @@ public class OrdersServiceImpl extends ServiceImpl<OrdersMapper, Orders> impleme
         Integer userId = ordersDTO.getUserId();
         String username = ordersDTO.getUsername();
         String merchantName = ordersDTO.getMerchantName();
+        Integer merchantId = ordersDTO.getMerchantId();
 
         //利用UUID生成订单号
         UUID uuid = UUID.randomUUID();
@@ -73,6 +73,7 @@ public class OrdersServiceImpl extends ServiceImpl<OrdersMapper, Orders> impleme
 
         Orders orders = new Orders();
         orders.setOrderNumber(orderNumber);
+        orders.setMerchantId(merchantId);
         orders.setMerchantName(merchantName);
         orders.setUserId(userId);
         orders.setUsername(username);
@@ -239,5 +240,16 @@ public class OrdersServiceImpl extends ServiceImpl<OrdersMapper, Orders> impleme
                 .page(page);
 
         return Result.success(PageDTO.of(result, OrdersVO.class));
+    }
+
+    /**
+     * 用户端订单分页查询
+     * @param userOrdersQuery
+     * @return
+     */
+    @Override
+    public Result<PageDTO<UserOrdersVO>> pageQueryUser(UserOrdersQuery userOrdersQuery) {
+        //ordersMapper.page(userOrdersQuery);
+        return null;
     }
 }

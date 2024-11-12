@@ -5,8 +5,10 @@ import com.atey.dto.PageDTO;
 import com.atey.dto.UpdateOrdersDTO;
 import com.atey.entity.Orders;
 import com.atey.query.OrdersQuery;
+import com.atey.query.UserOrdersQuery;
 import com.atey.result.Result;
 import com.atey.vo.OrdersVO;
+import com.atey.vo.UserOrdersVO;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 import java.util.List;
@@ -59,4 +61,11 @@ public interface IOrdersService extends IService<Orders> {
      * @return
      */
     Result<PageDTO<OrdersVO>> pageQuery(OrdersQuery ordersQuery);
+
+    /**
+     * 用户端订单分页查询
+     * @param userOrdersQuery
+     * @return
+     */
+    Result<PageDTO<UserOrdersVO>> pageQueryUser(UserOrdersQuery userOrdersQuery);
 }

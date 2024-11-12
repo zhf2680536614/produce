@@ -5,6 +5,7 @@ import cn.hutool.core.util.ArrayUtil;
 import com.atey.constant.OrderStatus;
 import com.atey.dto.OrdersDetailsDTO;
 import com.atey.entity.ChartCategory;
+import com.atey.entity.MarketProduces;
 import com.atey.entity.Orders;
 import com.atey.entity.OrdersDetail;
 import com.atey.mapper.OrdersDetailMapper;
@@ -53,7 +54,11 @@ public class OrdersDetailServiceImpl extends ServiceImpl<OrdersDetailMapper, Ord
                 .eq(Orders::getId, ordersId)
                 .one();
         String ordersNumber = one.getOrderNumber();
-
+        Integer merchantId = one.getMerchantId();
+        MarketProduces marketProduces = Db.lambdaQuery(MarketProduces.class)
+                .eq(MarketProduces::getId, merchantId)
+                .one();
+        String image = marketProduces.getImage();
         OrdersDetail ordersDetail = new OrdersDetail();
         ordersDetail.setOrdersId(ordersId);
         ordersDetail.setOrdersNumber(ordersNumber);
@@ -61,6 +66,7 @@ public class OrdersDetailServiceImpl extends ServiceImpl<OrdersDetailMapper, Ord
         ordersDetail.setProduceCategory(produceCategory);
         ordersDetail.setUnitPrice(unitPrice);
         ordersDetail.setProduceWeight(weight);
+        ordersDetail.setImage(image);
         ordersDetail.setStatus(OrderStatus.waitConfirm);
         ordersDetail.setCreateTime(LocalDateTime.now());
         ordersDetail.setUpdateTime(LocalDateTime.now());
@@ -110,6 +116,7 @@ public class OrdersDetailServiceImpl extends ServiceImpl<OrdersDetailMapper, Ord
 
     /**
      * 根据id查询订单明细
+     *
      * @param id
      * @return
      */

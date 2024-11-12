@@ -1,39 +1,18 @@
-package com.atey.entity;
+package com.atey.vo;
 
-import com.baomidou.mybatisplus.annotation.TableName;
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
-
-import java.io.Serial;
-import java.time.LocalDateTime;
-import java.io.Serializable;
-import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.experimental.Accessors;
 
-/**
- * <p>
- * 订单表
- * </p>
- *
- * @author atey
- * @since 2024-10-23
- */
+import java.time.LocalDateTime;
+
 @Data
-@EqualsAndHashCode(callSuper = false)
-@Accessors(chain = true)
-@TableName("orders")
-@ApiModel(value="Orders对象", description="订单表")
-public class Orders implements Serializable {
+public class UserOrdersVO {
 
-    @Serial
-    private static final long serialVersionUID = 1L;
-
-    @ApiModelProperty(value = "id")
-    @TableId(value = "id", type = IdType.AUTO)
+    @ApiModelProperty(value = "订单号")
     private Integer id;
+
+    @ApiModelProperty(value="订单明细id")
+    private Integer ordersDetails;
 
     @ApiModelProperty(value = "订单号")
     private String orderNumber;
@@ -44,14 +23,8 @@ public class Orders implements Serializable {
     @ApiModelProperty(value = "用户名称")
     private String username;
 
-    @ApiModelProperty(value = "商家id")
-    private Integer merchantId;
-
     @ApiModelProperty(value = "商家名称")
     private String merchantName;
-
-    @ApiModelProperty(value = "收货地址id")
-    private Integer addressBookId;
 
     @ApiModelProperty(value = "收货人姓名")
     private String consigneeName;
@@ -74,14 +47,27 @@ public class Orders implements Serializable {
     @ApiModelProperty(value = "备注")
     private String remark;
 
-    @ApiModelProperty(value = "逻辑删除 1为未删除，2为已删除")
-    private Integer deleted;
+    @ApiModelProperty(value = "产品名称")
+    private String produceName;
+
+    @ApiModelProperty(value = "产品图片")
+    private String image;
+
+    @ApiModelProperty(value = "产品分类")
+    private String produceCategory;
+
+    @ApiModelProperty(value = "产品重量")
+    private Double produceWeight;
+
+    @ApiModelProperty(value = "产品单价")
+    private Double unitPrice;
+
+    @ApiModelProperty(value = "订单总金额")
+    private Double amount;
 
     @ApiModelProperty(value = "创建时间")
     private LocalDateTime createTime;
 
     @ApiModelProperty(value = "修改时间")
     private LocalDateTime updateTime;
-
-
 }

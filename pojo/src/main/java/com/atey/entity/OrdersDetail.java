@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 
+import java.io.Serial;
 import java.time.LocalDateTime;
 import java.io.Serializable;
 
@@ -28,6 +29,7 @@ import lombok.experimental.Accessors;
 @ApiModel(value = "OrdersDetail对象", description = "订单明细表")
 public class OrdersDetail implements Serializable {
 
+    @Serial
     private static final long serialVersionUID = 1L;
 
     @ApiModelProperty(value = "id")
@@ -42,6 +44,9 @@ public class OrdersDetail implements Serializable {
 
     @ApiModelProperty(value = "产品名称")
     private String produceName;
+
+    @ApiModelProperty(value = "产品图片")
+    private String image;
 
     @ApiModelProperty(value = "产品分类")
     private String produceCategory;
