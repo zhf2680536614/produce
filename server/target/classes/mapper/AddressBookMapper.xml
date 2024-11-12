@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.atey.mapper.AddressBookMapper">
+    <update id="update">
+        update address_book
+        <set>
+            <if test="consigneeName!=null and consigneeName!=''">
+                consignee_name = #{consigneeName},
+            </if>
+            <if test="consigneePhoneNumber!=null and consigneePhoneNumber!=''">
+                consignee_phone_number = #{consigneePhoneNumber},
+            </if>
+            <if test="location!=null and location!=''">
+                location = #{location},
+            </if>
+            <if test="isDefault!=null and isDefault!=''">
+                is_default = #{isDefault},
+            </if>
+            <if test="deleted!=null">
+                deleted = #{deleted},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+</mapper>
