@@ -63,7 +63,7 @@ public class MarketProduces implements Serializable {
     private Integer deleted;
 
     @ApiModelProperty(value = "状态 1为上架，2为下架")
-    private Long status;
+    private Integer status;
 
     @ApiModelProperty(value = "创建时间")
     private LocalDateTime createTime;

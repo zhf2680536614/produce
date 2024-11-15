@@ -14,6 +14,7 @@ import com.atey.query.UserOrdersQuery;
 import com.atey.result.Result;
 import com.atey.service.IOrdersService;
 import com.atey.vo.OrdersVO;
+import com.atey.vo.UserOrdersTotalsVO;
 import com.atey.vo.UserOrdersVO;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -25,6 +26,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -216,6 +218,7 @@ public class OrdersServiceImpl extends ServiceImpl<OrdersMapper, Orders> impleme
 
     /**
      * 订单分页查询
+     *
      * @param ordersQuery
      * @return
      */
@@ -234,7 +237,6 @@ public class OrdersServiceImpl extends ServiceImpl<OrdersMapper, Orders> impleme
                 .like(username != null, Orders::getUsername, username)
                 .eq(phoneNumber != null, Orders::getPhoneNumber, phoneNumber)
                 .eq(status != null, Orders::getStatus, status)
-                .eq(Orders::getDeleted, DeletedConstant.NOT_DELETED)
                 .between(startCreateTime != null && endCreateTime != null, Orders::getCreateTime, startCreateTime, endCreateTime)
                 .orderByDesc(Orders::getCreateTime)
                 .page(page);
@@ -244,12 +246,36 @@ public class OrdersServiceImpl extends ServiceImpl<OrdersMapper, Orders> impleme
 
     /**
      * 用户端订单分页查询
+     *
      * @param userOrdersQuery
      * @return
      */
     @Override
-    public Result<PageDTO<UserOrdersVO>> pageQueryUser(UserOrdersQuery userOrdersQuery) {
-        //ordersMapper.page(userOrdersQuery);
-        return null;
+    public Result<UserOrdersTotalsVO> pageQueryUser(UserOrdersQuery userOrdersQuery) {
+        //计算pageNo
+        Integer pageNo = userOrdersQuery.getPageNo();
+        Integer pageSize = userOrdersQuery.getPageSize();
+        pageNo = pageSize * (pageNo - 1);
+        userOrdersQuery.setPageNo(pageNo);
+        List<UserOrdersVO> list = ordersMapper.page(userOrdersQuery);
+        UserOrdersTotalsVO totalsVO = new UserOrdersTotalsVO();
+        totalsVO.setUserOrdersTotals(list);
+        Integer total = ordersMapper.total(userOrdersQuery);
+        totalsVO.setTotal(total);
+        return Result.success(totalsVO);
+    }
+
+    /**
+     * 用户端删除订单
+     * @param id
+     */
+    @Override
+    public void delete(Integer id) {
+        Orders one = lambdaQuery()
+                .eq(Orders::getId, id)
+                .one();
+        one.setDeleted(DeletedConstant.DELETED);
+        one.setUpdateTime(LocalDateTime.now());
+        ordersMapper.update(one);
     }
 }

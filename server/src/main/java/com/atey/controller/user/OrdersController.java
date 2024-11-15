@@ -2,13 +2,12 @@ package com.atey.controller.user;
 
 
 import com.atey.dto.OrdersDTO;
-import com.atey.dto.PageDTO;
 import com.atey.dto.UpdateOrdersDTO;
 import com.atey.query.UserOrdersQuery;
 import com.atey.result.Result;
 import com.atey.service.IOrdersService;
 import com.atey.vo.OrdersVO;
-import com.atey.vo.UserOrdersVO;
+import com.atey.vo.UserOrdersTotalsVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
@@ -103,8 +102,16 @@ public class OrdersController {
      */
     @GetMapping("/page")
     @ApiOperation("用户端订单分页查询")
-    public Result<PageDTO<UserOrdersVO>> getOrdersPage(UserOrdersQuery userOrdersQuery){
+    public Result<UserOrdersTotalsVO> getOrdersPage(UserOrdersQuery userOrdersQuery){
         log.info("用户端订单分页查询{}",userOrdersQuery);
         return ordersService.pageQueryUser(userOrdersQuery);
+    }
+
+    @ApiOperation("用户端删除订单")
+    @DeleteMapping("/{id}")
+    public Result delete(@PathVariable Integer id){
+        log.info("用户端删除订单{}",id);
+        ordersService.delete(id);
+        return Result.success();
     }
 }

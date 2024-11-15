@@ -7,7 +7,7 @@
         from produce.orders_detail
         where status = 1
         group by produce.orders_detail.produce_category
-        order by amount desc
+        order by amount
     </select>
 
 </mapper>

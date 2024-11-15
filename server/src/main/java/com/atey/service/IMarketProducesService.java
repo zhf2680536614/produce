@@ -2,7 +2,9 @@ package com.atey.service;
 
 import com.atey.dto.MarketConditionDTO;
 import com.atey.dto.MarketProducesDTO;
+import com.atey.dto.PageDTO;
 import com.atey.entity.MarketProduces;
+import com.atey.query.MarketProducesQuery;
 import com.atey.result.Result;
 import com.atey.vo.MarketProducesVO;
 import com.baomidou.mybatisplus.extension.service.IService;
@@ -38,4 +40,22 @@ public interface IMarketProducesService extends IService<MarketProduces> {
      */
     MarketProducesVO getByIdMP(Integer id);
 
+    /**
+     * 上架产品分页查询
+     * @param marketProducesQuery
+     * @return
+     */
+    Result<PageDTO<MarketProducesVO>> pageMarketProduces(MarketProducesQuery marketProducesQuery);
+
+    /**
+     * 修改上架产品
+     * @param marketProducesDTO
+     */
+    void updateMarket(MarketProducesDTO marketProducesDTO);
+
+    /**
+     * 删除上架产品
+     * @param id
+     */
+    void delete(Integer id);
 }

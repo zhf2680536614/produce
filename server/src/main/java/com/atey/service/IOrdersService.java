@@ -8,10 +8,8 @@ import com.atey.query.OrdersQuery;
 import com.atey.query.UserOrdersQuery;
 import com.atey.result.Result;
 import com.atey.vo.OrdersVO;
-import com.atey.vo.UserOrdersVO;
+import com.atey.vo.UserOrdersTotalsVO;
 import com.baomidou.mybatisplus.extension.service.IService;
-
-import java.util.List;
 
 /**
  * <p>
@@ -67,5 +65,11 @@ public interface IOrdersService extends IService<Orders> {
      * @param userOrdersQuery
      * @return
      */
-    Result<PageDTO<UserOrdersVO>> pageQueryUser(UserOrdersQuery userOrdersQuery);
+    Result<UserOrdersTotalsVO> pageQueryUser(UserOrdersQuery userOrdersQuery);
+
+    /**
+     * 用户端删除订单
+     * @param id
+     */
+    void delete(Integer id);
 }

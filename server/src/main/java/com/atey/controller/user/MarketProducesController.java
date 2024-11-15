@@ -3,7 +3,9 @@ package com.atey.controller.user;
 
 import com.atey.dto.MarketConditionDTO;
 import com.atey.dto.MarketProducesDTO;
+import com.atey.dto.PageDTO;
 import com.atey.entity.MarketProduces;
+import com.atey.query.MarketProducesQuery;
 import com.atey.result.Result;
 import com.atey.service.IMarketProducesService;
 import com.atey.vo.MarketProducesVO;
@@ -27,12 +29,13 @@ import java.util.List;
 @RequestMapping("/user/marketProduces")
 @Slf4j
 @AllArgsConstructor
-@Api(tags="市场产品相关接口")
+@Api(tags = "市场产品相关接口")
 public class MarketProducesController {
     private final IMarketProducesService marketProducesService;
 
     /**
      * 上架产品
+     *
      * @param marketProducesDTO
      * @return
      */
@@ -46,25 +49,65 @@ public class MarketProducesController {
 
     /**
      * 查询所有上架产品
-     * @param string
+     *
+     * @param marketConditionDTO
      * @return
      */
     @GetMapping("/all")
     @ApiOperation("查询上架产品")
-    public Result<List<MarketProducesVO>> queryAll(MarketConditionDTO marketConditionDTO){
+    public Result<List<MarketProducesVO>> queryAll(MarketConditionDTO marketConditionDTO) {
         log.info("查询上架产品{}", marketConditionDTO);
         return marketProducesService.queryAll(marketConditionDTO);
     }
 
     /**
      * 根据id查询上架产品
+     *
      * @param id
      * @return
      */
     @GetMapping("/{id}")
     @ApiOperation("根据id查询上架产品")
     public Result<MarketProducesVO> getById(@PathVariable Integer id) {
-        log.info("根据id查询上架产品{}",id);
+        log.info("根据id查询上架产品{}", id);
         return Result.success(marketProducesService.getByIdMP(id));
+    }
+
+    /**
+     * 上架产品分页查询
+     * @param marketProducesQuery
+     * @return
+     */
+    @GetMapping("/page")
+    @ApiOperation("上架产品分页查询")
+    public Result<PageDTO<MarketProducesVO>> queryByCondition(MarketProducesQuery marketProducesQuery) {
+        log.info("上架产品分页查询{}", marketProducesQuery);
+        return marketProducesService.pageMarketProduces(marketProducesQuery);
+    }
+
+    /**
+     * 修改上架产品
+     * @param marketProducesDTO
+     * @return
+     */
+    @PutMapping("/update")
+    @ApiOperation("修改上架产品")
+    public Result update(@RequestBody MarketProducesDTO marketProducesDTO) {
+        log.info("修改上架产品{}", marketProducesDTO);
+        marketProducesService.updateMarket(marketProducesDTO);
+        return Result.success();
+    }
+
+    /**
+     * 删除上架产品
+     * @param id
+     * @return
+     */
+    @ApiOperation("删除上架产品")
+    @DeleteMapping("/{id}")
+    public Result delete(@PathVariable Integer id) {
+        log.info("删除上架产品,{}",id);
+        marketProducesService.delete(id);
+        return Result.success();
     }
 }

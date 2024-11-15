@@ -12,7 +12,7 @@ public class UserOrdersVO {
     private Integer id;
 
     @ApiModelProperty(value="订单明细id")
-    private Integer ordersDetails;
+    private Integer ordersDetailsId;
 
     @ApiModelProperty(value = "订单号")
     private String orderNumber;
@@ -22,6 +22,9 @@ public class UserOrdersVO {
 
     @ApiModelProperty(value = "用户名称")
     private String username;
+
+    @ApiModelProperty(value="上架产品id")
+    private Integer marketProducesId;
 
     @ApiModelProperty(value = "商家名称")
     private String merchantName;
@@ -37,12 +40,6 @@ public class UserOrdersVO {
 
     @ApiModelProperty(value = "订单状态 1为已完成，2为待确认，3为已取消")
     private Integer status;
-
-    @ApiModelProperty(value = "订单完成时间")
-    private LocalDateTime completeTime;
-
-    @ApiModelProperty(value = "订单取消时间")
-    private LocalDateTime cancelTime;
 
     @ApiModelProperty(value = "备注")
     private String remark;

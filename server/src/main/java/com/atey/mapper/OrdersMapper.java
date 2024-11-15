@@ -1,9 +1,12 @@
 package com.atey.mapper;
 
 import com.atey.entity.Orders;
+import com.atey.query.UserOrdersQuery;
+import com.atey.vo.UserOrdersVO;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
-import org.springframework.cache.annotation.CacheEvict;
+
+import java.util.List;
 
 /**
  * <p>
@@ -15,5 +18,10 @@ import org.springframework.cache.annotation.CacheEvict;
  */
 @Mapper
 public interface OrdersMapper extends BaseMapper<Orders> {
+
     void update(Orders orders);
+
+    List<UserOrdersVO> page(UserOrdersQuery userOrdersQuery);
+
+    Integer total(UserOrdersQuery userOrdersQuery);
 }
