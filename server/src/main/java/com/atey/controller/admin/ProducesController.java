@@ -54,7 +54,7 @@ public class ProducesController {
      */
     @PostMapping("/save")
     @ApiOperation("新增产品")
-    @CacheEvict(cacheNames = "producesCache",allEntries = true)
+    @CacheEvict(cacheNames = {"producesCache", "chartCache"},allEntries = true)
     public Result save(@RequestBody ProducesDTO producesDTO) {
         log.info("新增产品{}", producesDTO);
         producesService.saveProduces(producesDTO);
@@ -68,7 +68,7 @@ public class ProducesController {
      */
     @DeleteMapping("/{id}")
     @ApiOperation("删除产品")
-    @CacheEvict(cacheNames = "producesCache",allEntries = true)
+    @CacheEvict(cacheNames = {"producesCache", "chartCache"},allEntries = true)
     public Result delete(@PathVariable Integer id) {
         log.info("删除产品{}",id);
         producesService.deleteProduces(id);
@@ -95,7 +95,7 @@ public class ProducesController {
      */
     @PutMapping("/update")
     @ApiOperation("修改产品")
-    @CacheEvict(cacheNames = "producesCache",allEntries = true)
+    @CacheEvict(cacheNames = {"producesCache", "chartCache"},allEntries = true)
     public Result update(@RequestBody ProducesDTO producesDTO) {
         log.info("修改产品{}",producesDTO);
         producesService.updateProduces(producesDTO);

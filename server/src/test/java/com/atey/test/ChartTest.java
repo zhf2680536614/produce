@@ -16,7 +16,5 @@ class ChartTest {
     @Test
     public void test() {
         AdminChartVO adminChartVO = new AdminChartVO();
-
-        chartService.chart("12", "12");
     }
 }

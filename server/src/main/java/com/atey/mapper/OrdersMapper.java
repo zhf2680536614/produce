@@ -1,11 +1,13 @@
 package com.atey.mapper;
 
+import com.atey.entity.ChartOrders;
 import com.atey.entity.Orders;
 import com.atey.query.UserOrdersQuery;
 import com.atey.vo.UserOrdersVO;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -24,4 +26,6 @@ public interface OrdersMapper extends BaseMapper<Orders> {
     List<UserOrdersVO> page(UserOrdersQuery userOrdersQuery);
 
     Integer total(UserOrdersQuery userOrdersQuery);
+
+    List<ChartOrders> countOrders(LocalDateTime startDateTime, LocalDateTime endDateTime);
 }

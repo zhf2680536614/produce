@@ -38,5 +38,25 @@
         </set>
         where id = #{id}
     </update>
+    <select id="countBG" resultType="com.atey.entity.ChartBG">
+        select gender, count(gender) as count
+        from produce.user
+        <where>
+            and status = 1
+            and deleted = 1
+        </where>
+        group by gender
+    </select>
+    <select id="countByMap" resultType="java.lang.Integer" parameterType="java.util.Map">
+        select count(id) from produce.user
+        <where>
+            <if test="begin != null">
+                and create_time &gt; #{begin}
+            </if>
+            <if test="end != null">
+                and create_time &lt; #{end}
+            </if>
+        </where>
+    </select>
 
 </mapper>

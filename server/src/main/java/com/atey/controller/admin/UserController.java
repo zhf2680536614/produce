@@ -47,7 +47,7 @@ public class UserController {
      */
     @PostMapping("/save")
     @ApiOperation("添加用户")
-    @CacheEvict(cacheNames = "userCache", allEntries = true)
+    @CacheEvict(cacheNames = {"userCache", "chartCache"}, allEntries = true)
     public Result save(@RequestBody UserDTO userDTO) {
         log.info("新增用户{}", userDTO.toString());
         userService.save(userDTO);
@@ -62,7 +62,7 @@ public class UserController {
      */
     @DeleteMapping("/{id}")
     @ApiOperation("删除用户")
-    @CacheEvict(cacheNames = "userCache", allEntries = true)
+    @CacheEvict(cacheNames = {"userCache", "chartCache"}, allEntries = true)
     public Result delete(@PathVariable Long id) {
         log.info("删除用户{}", id);
         userService.delete(id);
@@ -91,7 +91,7 @@ public class UserController {
      */
     @PutMapping("/update")
     @ApiOperation("修改用户")
-    @CacheEvict(cacheNames = "userCache", allEntries = true)
+    @CacheEvict(cacheNames = {"userCache", "chartCache"}, allEntries = true)
     public Result update(@RequestBody UserDTO userDTO) {
         log.info("用户管理修改用户{}", userDTO);
         userService.updateUser(userDTO);

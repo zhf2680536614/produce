@@ -53,7 +53,7 @@ public class MarketProducesPlusController {
      */
     @PutMapping("/confirm")
     @ApiOperation("确认购买")
-    @CacheEvict(cacheNames = "ordersCache", allEntries = true)
+    @CacheEvict(cacheNames = {"ordersCache", "chartCache"}, allEntries = true)
     public Result confirmOrders(@RequestBody UpdateOrdersDTO updateOrdersDTO) {
         log.info("订单确认购买{}", updateOrdersDTO);
         marketProducesPlusService.confirmOrders(updateOrdersDTO);

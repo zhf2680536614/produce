@@ -12,6 +12,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -37,6 +38,7 @@ public class OrdersController {
      */
     @PostMapping("/save")
     @ApiOperation("新增订单")
+    @CacheEvict(cacheNames = {"ordersCache", "chartCache"}, allEntries = true)
     public Result<OrdersVO> save(@RequestBody OrdersDTO ordersDTO){
         log.info("新增订单{}",ordersDTO);
         OrdersVO result = ordersService.saveOrders(ordersDTO);
@@ -50,6 +52,7 @@ public class OrdersController {
      */
     @PutMapping("/update")
     @ApiOperation("修改收货地址")
+    @CacheEvict(cacheNames = {"ordersCache", "chartCache"}, allEntries = true)
     public Result update(@RequestBody UpdateOrdersDTO updateOrdersDTO){
         log.info("修改用户收获地址{}",updateOrdersDTO);
         ordersService.updateOrders(updateOrdersDTO);
@@ -76,6 +79,7 @@ public class OrdersController {
      */
     @PutMapping("/confirm")
     @ApiOperation("确认购买")
+    @CacheEvict(cacheNames = {"ordersCache", "chartCache"}, allEntries = true)
     public Result confirmOrders(@RequestBody UpdateOrdersDTO updateOrdersDTO){
         log.info("订单确认购买{}",updateOrdersDTO);
         ordersService.confirmOrders(updateOrdersDTO);
@@ -89,6 +93,7 @@ public class OrdersController {
      */
     @PutMapping("/cancel")
     @ApiOperation("取消订单")
+    @CacheEvict(cacheNames = {"ordersCache", "chartCache"}, allEntries = true)
     public Result cancelOrders(@RequestBody UpdateOrdersDTO updateOrdersDTO){
         log.info("取消订单{}",updateOrdersDTO);
         ordersService.cancelOrders(updateOrdersDTO);

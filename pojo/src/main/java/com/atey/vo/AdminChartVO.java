@@ -6,9 +6,14 @@ import com.atey.entity.ChartBG;
 import com.atey.entity.ChartOrders;
 import lombok.Data;
 
+import java.io.Serial;
+import java.io.Serializable;
 import java.util.List;
 @Data
-public class AdminChartVO {
+public class AdminChartVO implements Serializable {
+
+    @Serial
+    private static final long serialVersionUID = 1L;
 
     //用户总数
     private Long userAmount;
@@ -17,7 +22,7 @@ public class AdminChartVO {
     private Long categoryAmount;
 
     //产品总数
-    private Long produceMount;
+    private Long produceAmount;
 
     //男女数
     private List<ChartBG> chartBGList;

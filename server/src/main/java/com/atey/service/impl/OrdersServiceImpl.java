@@ -49,7 +49,6 @@ public class OrdersServiceImpl extends ServiceImpl<OrdersMapper, Orders> impleme
      * @return
      */
     @Override
-    @CacheEvict(cacheNames = "ordersCache", allEntries = true)
     public OrdersVO saveOrders(OrdersDTO ordersDTO) {
         Integer userId = ordersDTO.getUserId();
         String username = ordersDTO.getUsername();
@@ -107,7 +106,6 @@ public class OrdersServiceImpl extends ServiceImpl<OrdersMapper, Orders> impleme
      * @param updateOrdersDTO
      */
     @Override
-    @CacheEvict(cacheNames = "ordersCache", allEntries = true)
     public void updateOrders(UpdateOrdersDTO updateOrdersDTO) {
 
         Orders orders = new Orders();
@@ -142,7 +140,6 @@ public class OrdersServiceImpl extends ServiceImpl<OrdersMapper, Orders> impleme
      */
     @Override
     @Transactional
-    @CacheEvict(cacheNames = "ordersCache", allEntries = true)
     public synchronized void confirmOrders(UpdateOrdersDTO updateOrdersDTO) {
         Orders orders = new Orders();
         orders.setId(updateOrdersDTO.getId());

@@ -70,7 +70,7 @@ public class CategoryController {
      */
     @PostMapping("/save")
     @ApiOperation("新增分类")
-    @CacheEvict(cacheNames = {"categoryCache", "categoryCacheUser"}, allEntries = true)
+    @CacheEvict(cacheNames = {"categoryCache", "categoryCacheUser", "chartCache"}, allEntries = true)
     public Result save(@RequestBody CategoryDTO categoryDTO) {
         log.info("新增分类{}", categoryDTO);
         categoryService.saveCategory(categoryDTO);
@@ -85,7 +85,7 @@ public class CategoryController {
      */
     @DeleteMapping("/{id}")
     @ApiOperation("删除分类")
-    @CacheEvict(cacheNames = {"categoryCache", "categoryCacheUser"}, allEntries = true)
+    @CacheEvict(cacheNames = {"categoryCache", "categoryCacheUser", "chartCache"}, allEntries = true)
     public Result delete(@PathVariable Integer id) {
         log.info("删除分类{}", id);
         categoryService.deleteCategory(id);
@@ -111,7 +111,7 @@ public class CategoryController {
      */
     @PutMapping("/update")
     @ApiOperation("修改分类")
-    @CacheEvict(cacheNames = {"categoryCache", "categoryCacheUser"}, allEntries = true)
+    @CacheEvict(cacheNames = {"categoryCache", "categoryCacheUser", "chartCache"}, allEntries = true)
     public Result update(@RequestBody CategoryDTO categoryDTO) {
         log.info("修改分类{}", categoryDTO);
         categoryService.updateCategory(categoryDTO);

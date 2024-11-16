@@ -6,7 +6,9 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -20,4 +22,6 @@ import java.util.List;
 public interface OrdersDetailMapper extends BaseMapper<OrdersDetail> {
 
     List<ChartCategory> chartCategory();
+
+    Double countByMap(Map map);
 }

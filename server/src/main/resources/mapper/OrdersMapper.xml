@@ -98,5 +98,17 @@
         </where>
     </select>
 
+    <select id="countOrders" resultType="com.atey.entity.ChartOrders">
+        select status, count(status) as count
+        from produce.orders
+        <where>
+            <if test="startDateTime!=null and endDateTime!=null">
+                and create_time between #{startDateTime} and #{endDateTime}
+            </if>
+            and deleted = 1
+        </where>
+        group by status
+    </select>
+
 
 </mapper>

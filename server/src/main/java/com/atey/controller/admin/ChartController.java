@@ -9,6 +9,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -33,9 +34,12 @@ public class ChartController {
      */
     @GetMapping("/all")
     @ApiOperation("管理端仪表盘数据统计")
+    @Cacheable(cacheNames = "chartCache", key = "#start.toString() + '-' + #end.toString()")
     public Result<AdminChartVO> chart(
-            String start,
-            String end
+            @DateTimeFormat(pattern = "yyyy-MM-dd")
+            LocalDate start,
+            @DateTimeFormat(pattern = "yyyy-MM-dd")
+            LocalDate end
     ) {
         log.info("管理端仪表盘数据统计{},{}", start, end);
         AdminChartVO adminChartVO =  chartService.chart(start,end);
