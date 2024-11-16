@@ -17,6 +17,7 @@ import com.baomidou.mybatisplus.extension.toolkit.Db;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
@@ -57,7 +58,7 @@ public class OrderTask {
                 ordersMapper.update(orders);
 
                 Db.lambdaUpdate(OrdersDetail.class)
-                        .eq(OrdersDetail::getOrdersId,orders.getId())
+                        .eq(OrdersDetail::getOrdersId, orders.getId())
                         .set(OrdersDetail::getStatus, OrderStatus.cancel)
                         .update();
             }
@@ -67,13 +68,14 @@ public class OrderTask {
 
     //自动构造秒杀产品
     @Scheduled(cron = "0 */1 * * * *")
+    @CacheEvict(cacheNames = "marketProducesPlusCache", allEntries = true)
     public void createMPL() {
         log.info("自动处理秒杀产品 : {}", LocalDateTime.now());
         //删除秒杀产品数据库数据
         List<MarketProducesPlus> marketProducesPluses = Db.lambdaQuery(MarketProducesPlus.class)
                 .eq(MarketProducesPlus::getDeleted, DeletedConstant.NOT_DELETED)
                 .list();
-        if(!marketProducesPluses.isEmpty()){
+        if (!marketProducesPluses.isEmpty()) {
             for (MarketProducesPlus marketProducesPlus : marketProducesPluses) {
                 marketProducesPlusMapper.deleteById(marketProducesPlus);
             }
@@ -86,7 +88,7 @@ public class OrderTask {
 
         Random r = new Random();
 
-         //构造随机索引
+        //构造随机索引
         Set<Integer> set = new HashSet<>();
         while (set.size() < 8) {
             int index = r.nextInt(list.size());

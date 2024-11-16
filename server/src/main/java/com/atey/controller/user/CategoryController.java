@@ -41,6 +41,7 @@ public class CategoryController {
      */
     @GetMapping("/queryCategory")
     @ApiOperation("获取所有分类")
+    @Cacheable(cacheNames = "categoryCacheUser", key = "#root.methodName")
     public Result<List<CategoryVO>> queryCategory() {
         log.info("查询所有分类");
         List<CategoryVO> list = categoryService.queryCategory();

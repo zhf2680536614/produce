@@ -9,7 +9,10 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import net.bytebuddy.implementation.bind.annotation.Default;
+import org.springframework.boot.context.properties.bind.DefaultValue;
 import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -24,17 +27,19 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/user/producesPlus")
 @Slf4j
 @AllArgsConstructor
-@Api(tags="秒杀产品相关接口")
+@Api(tags = "秒杀产品相关接口")
 public class MarketProducesPlusController {
 
     private final IMarketProducesPlusService marketProducesPlusService;
 
     /**
      * 获取秒杀产品
+     *
      * @return
      */
     @GetMapping("/all")
-    public Result<MPLVO> getPlus(){
+    @Cacheable(cacheNames = "marketProducesPlusCache", key = "#root.methodName")
+    public Result<MPLVO> getPlus() {
         log.info("获取所有秒杀产品");
         MPLVO mp = marketProducesPlusService.getPlus();
         return Result.success(mp);
@@ -42,14 +47,15 @@ public class MarketProducesPlusController {
 
     /**
      * 秒杀产品确认购买
+     *
      * @param updateOrdersDTO
      * @return
      */
     @PutMapping("/confirm")
     @ApiOperation("确认购买")
     @CacheEvict(cacheNames = "ordersCache", allEntries = true)
-    public Result confirmOrders(@RequestBody UpdateOrdersDTO updateOrdersDTO){
-        log.info("订单确认购买{}",updateOrdersDTO);
+    public Result confirmOrders(@RequestBody UpdateOrdersDTO updateOrdersDTO) {
+        log.info("订单确认购买{}", updateOrdersDTO);
         marketProducesPlusService.confirmOrders(updateOrdersDTO);
         return Result.success();
     }
