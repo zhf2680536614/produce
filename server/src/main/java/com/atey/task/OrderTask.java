@@ -38,7 +38,7 @@ public class OrderTask {
      * 自动处理未确认的订单
      */
     @Scheduled(cron = "0 * * * * *")
-    @CacheEvict(cacheNames = "ordersCache", allEntries = true)
+    @CacheEvict(cacheNames = {"ordersCache","chartCache"}, allEntries = true)
     public void operateOutTimeOrder() {
         log.info("自动处理超时未支付订单 : {}", LocalDateTime.now());
 
