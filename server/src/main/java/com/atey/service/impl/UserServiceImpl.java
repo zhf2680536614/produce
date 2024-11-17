@@ -86,18 +86,19 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
         if (userDTO.getStatus() == null) {
             throw new BaseException(MessageConstant.CHOOSE_STATUS);
         }
-        User user = new User();
-        BeanUtil.copyProperties(userDTO, user);
-        user.setDeleted(DeletedConstant.NOT_DELETED);
-        user.setCreateTime(LocalDateTime.now());
-        user.setUpdateTime(LocalDateTime.now());
 
         //查询数据库中用户名是否存在
         User one = lambdaQuery()
                 .eq(userDTO.getUsername() != null, User::getUsername, userDTO.getUsername())
                 .eq(User::getDeleted, DeletedConstant.NOT_DELETED)
                 .one();
+
         if (BeanUtil.isEmpty(one)) {
+            User user = new User();
+            BeanUtil.copyProperties(userDTO, user);
+            user.setDeleted(DeletedConstant.NOT_DELETED);
+            user.setCreateTime(LocalDateTime.now());
+            user.setUpdateTime(LocalDateTime.now());
             save(user);
         } else {
             throw new BaseException(MessageConstant.USER_EXIST_SAVE);
@@ -216,6 +217,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
 
     /**
      * 根据id获取用户信息及收货地址
+     *
      * @param id
      * @return
      */
@@ -239,9 +241,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
 
             AddressBookVO addressBookVO = new AddressBookVO();
             BeanUtil.copyProperties(addressBook, addressBookVO);
-            if(Objects.equals(addressBook.getIsDefault(), DefaultConstant.IS_DEFAULT)){
+            if (Objects.equals(addressBook.getIsDefault(), DefaultConstant.IS_DEFAULT)) {
                 addressBookVO.setIsDefault(true);
-            }else{
+            } else {
                 addressBookVO.setIsDefault(false);
             }
             number++;
@@ -250,5 +252,66 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
         }
         userAddressVO.setAddress(addressBookVOS);
         return userAddressVO;
+    }
+
+    /**
+     * 用户注册
+     *
+     * @param userDTO
+     */
+    @Override
+    public void register(UserDTO userDTO) {
+        //查询数据库中用户名是否存在
+        User one = lambdaQuery()
+                .eq(userDTO.getUsername() != null, User::getUsername, userDTO.getUsername())
+                .eq(User::getDeleted, DeletedConstant.NOT_DELETED)
+                .one();
+
+        if (BeanUtil.isEmpty(one)) {
+            User user = new User();
+            BeanUtil.copyProperties(userDTO, user);
+            user.setDeleted(DeletedConstant.NOT_DELETED);
+            user.setCreateTime(LocalDateTime.now());
+            user.setUpdateTime(LocalDateTime.now());
+            user.setStatus(StatusConstant.ENABLE);
+            user.setType(TypeConstant.USER);
+            //设置默认头像
+            user.setImage("https://produces.oss-cn-beijing.aliyuncs.com/2021c9fa-7b3c-4bf8-ac5d-eeb3853f9fa0.png");
+            user.setGender((short)1);
+            save(user);
+        } else {
+            throw new BaseException(MessageConstant.USER_EXIST_SAVE);
+        }
+    }
+
+    /**
+     * 用户验证
+     * @param userDTO
+     * @return
+     */
+    @Override
+    public UserVO validate(UserDTO userDTO) {
+
+        String username = userDTO.getUsername();
+        String phoneNumber = userDTO.getPhoneNumber();
+        String email = userDTO.getEmail();
+
+        User user = lambdaQuery()
+                .eq(username != null, User::getUsername, userDTO.getUsername())
+                .eq(email != null, User::getEmail, userDTO.getEmail())
+                .eq(phoneNumber != null, User::getPhoneNumber, userDTO.getPhoneNumber())
+                .eq(User::getDeleted, DeletedConstant.NOT_DELETED)
+                .eq(User::getStatus, StatusConstant.ENABLE)
+                .eq(User::getType, TypeConstant.USER)
+                .one();
+
+        if(BeanUtil.isEmpty(user)) {
+            throw new BaseException("验证失败");
+        }
+
+        UserVO userVO = new UserVO();
+        BeanUtil.copyProperties(user, userVO);
+
+        return userVO;
     }
 }

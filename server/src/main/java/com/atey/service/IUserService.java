@@ -73,4 +73,17 @@ public interface IUserService extends IService<User> {
      * @return
      */
     UserAddressVO getByIdUserWithAddress(Long id);
+
+    /**
+     * 用户注册
+     * @param userDTO
+     */
+    void register(UserDTO userDTO);
+
+    /**
+     * 用户验证
+     * @param userDTO
+     * @return
+     */
+    UserVO validate(UserDTO userDTO);
 }

@@ -42,7 +42,7 @@ public class OrderTask {
     public void operateOutTimeOrder() {
         log.info("自动处理超时未支付订单 : {}", LocalDateTime.now());
 
-        //查询订单表中是否存在未支付且超时的订单 超时时间为18分钟
+        //查询订单表中是否存在未支付且超时的订单 超时时间为15分钟
         LocalDateTime outTime = LocalDateTime.now().plusMinutes(-15);
 
         List<Orders> outList = ordersService.lambdaQuery()
@@ -75,11 +75,13 @@ public class OrderTask {
         List<MarketProducesPlus> marketProducesPluses = Db.lambdaQuery(MarketProducesPlus.class)
                 .eq(MarketProducesPlus::getDeleted, DeletedConstant.NOT_DELETED)
                 .list();
+        List<Integer> idList = new ArrayList<>();
         if (!marketProducesPluses.isEmpty()) {
             for (MarketProducesPlus marketProducesPlus : marketProducesPluses) {
-                marketProducesPlusMapper.deleteById(marketProducesPlus);
+                idList.add(marketProducesPlus.getId());
             }
         }
+        marketProducesPlusMapper.deleteByIds(idList);
 
         List<MarketProduces> list = Db.lambdaQuery(MarketProduces.class)
                 .eq(MarketProduces::getDeleted, DeletedConstant.NOT_DELETED)
