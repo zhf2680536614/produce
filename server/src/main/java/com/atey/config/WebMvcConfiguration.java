@@ -3,6 +3,7 @@ package com.atey.config;
 import com.atey.interceptor.JwtTokenAdminInterceptor;
 import com.atey.interceptor.JwtTokenUserInterceptor;
 import com.atey.json.JacksonObjectMapper;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -26,18 +27,19 @@ import java.util.List;
  */
 @Configuration
 @Slf4j
+@RequiredArgsConstructor
 public class WebMvcConfiguration extends WebMvcConfigurationSupport {
 
-    @Autowired
-    private JwtTokenAdminInterceptor jwtTokenAdminInterceptor;
-    @Autowired
-    private JwtTokenUserInterceptor jwtTokenUserInterceptor;
+    private final JwtTokenAdminInterceptor jwtTokenAdminInterceptor;
+
+    private final JwtTokenUserInterceptor jwtTokenUserInterceptor;
 
     /**
      * 注册自定义拦截器
      *
      * @param registry
      */
+    @Override
     protected void addInterceptors(InterceptorRegistry registry) {
         log.info("开始注册自定义拦截器...");
         registry.addInterceptor(jwtTokenAdminInterceptor)
@@ -58,6 +60,7 @@ public class WebMvcConfiguration extends WebMvcConfigurationSupport {
      *
      * @param converters
      */
+    @Override
     protected void extendMessageConverters(List<HttpMessageConverter<?>> converters) {
         log.info("扩展消息转换器...");
         //创建一个消息转换器对象

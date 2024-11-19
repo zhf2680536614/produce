@@ -7,10 +7,8 @@ import com.atey.service.IMarketProducesPlusService;
 import com.atey.vo.MPLVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import net.bytebuddy.implementation.bind.annotation.Default;
-import org.springframework.boot.context.properties.bind.DefaultValue;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.web.bind.annotation.*;
@@ -26,7 +24,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/user/producesPlus")
 @Slf4j
-@AllArgsConstructor
+@RequiredArgsConstructor
 @Api(tags = "秒杀产品相关接口")
 public class MarketProducesPlusController {
 

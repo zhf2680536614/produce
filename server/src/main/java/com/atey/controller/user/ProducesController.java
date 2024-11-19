@@ -5,7 +5,7 @@ import com.atey.service.IProducesService;
 import com.atey.vo.ProducesVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,7 +17,7 @@ import java.util.List;
 @RestController("UserProducesController")
 @RequestMapping("/user/produces")
 @Slf4j
-@AllArgsConstructor
+@RequiredArgsConstructor
 @Api(tags="用户端产品相关接口")
 public class ProducesController {
     private final IProducesService producesService;

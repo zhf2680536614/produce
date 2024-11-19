@@ -4,7 +4,7 @@ import com.atey.constant.MessageConstant;
 import com.atey.result.Result;
 import com.atey.utils.AliOssUtil;
 import io.swagger.annotations.Api;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,7 +19,7 @@ import java.util.UUID;
 @RequestMapping
 @Slf4j
 @Api(tags="文件上传")
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class uploadController {
 
     private final AliOssUtil aliOssUtil;

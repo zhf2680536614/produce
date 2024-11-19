@@ -4,10 +4,9 @@ import com.atey.dto.UserDTO;
 import com.atey.result.Result;
 import com.atey.service.IUserService;
 import com.atey.vo.UserAddressVO;
-import com.atey.vo.UserVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/user/user")
 @Api(tags = "用户端用户相关接口")
 @Slf4j
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class UserController {
     private final IUserService userService;
 

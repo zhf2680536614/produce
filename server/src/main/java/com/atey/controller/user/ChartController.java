@@ -5,7 +5,7 @@ import com.atey.service.IOrdersDetailService;
 import com.atey.vo.ChartCategoryVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController("UserChartController")
 @RequestMapping("/user/chart")
 @Slf4j
-@AllArgsConstructor
+@RequiredArgsConstructor
 @Api(tags="数据统计相关接口")
 public class ChartController {
 

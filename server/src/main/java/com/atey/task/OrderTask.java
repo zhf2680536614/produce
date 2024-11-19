@@ -15,6 +15,7 @@ import com.atey.service.IMarketProducesPlusService;
 import com.atey.service.IOrdersService;
 import com.baomidou.mybatisplus.extension.toolkit.Db;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
@@ -26,7 +27,7 @@ import java.util.*;
 
 @Component
 @Slf4j
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class OrderTask {
 
     private final OrdersMapper ordersMapper;

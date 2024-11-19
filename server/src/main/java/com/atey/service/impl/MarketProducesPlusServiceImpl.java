@@ -19,6 +19,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.baomidou.mybatisplus.extension.toolkit.Db;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -38,7 +39,7 @@ import java.util.List;
  * @since 2024-11-09
  */
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class MarketProducesPlusServiceImpl extends ServiceImpl<MarketProducesPlusMapper, MarketProducesPlus> implements IMarketProducesPlusService {
     private final OrdersMapper ordersMapper;
     /**

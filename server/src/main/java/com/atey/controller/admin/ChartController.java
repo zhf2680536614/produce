@@ -2,12 +2,10 @@ package com.atey.controller.admin;
 
 import com.atey.result.Result;
 import com.atey.service.ChartService;
-import com.atey.service.IOrdersDetailService;
 import com.atey.vo.AdminChartVO;
-import com.atey.vo.ChartCategoryVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -16,12 +14,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 @RestController("AdminChartController")
 @RequestMapping("/admin/chart")
 @Slf4j
-@AllArgsConstructor
+@RequiredArgsConstructor
 @Api(tags = "数据统计相关接口")
 public class ChartController {
 

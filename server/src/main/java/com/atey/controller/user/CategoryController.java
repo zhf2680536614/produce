@@ -1,20 +1,17 @@
 package com.atey.controller.user;
 
 
-import com.atey.dto.CategoryDTO;
-import com.atey.dto.PageDTO;
-import com.atey.entity.Category;
-import com.atey.query.CategoryQuery;
 import com.atey.result.Result;
 import com.atey.service.ICategoryService;
 import com.atey.vo.CategoryVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
@@ -30,7 +27,7 @@ import java.util.List;
 @RequestMapping("/user/category")
 @Api(tags = "管理端分类相关接口")
 @Slf4j
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class CategoryController {
     private final ICategoryService categoryService;
 

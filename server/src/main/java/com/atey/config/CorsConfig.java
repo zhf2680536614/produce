@@ -13,6 +13,7 @@ public class CorsConfig {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         CorsConfiguration config = new CorsConfiguration();
         config.setAllowCredentials(true);
+        config.addAllowedOrigin("http://localhost:8083"); // 允许前端的域名
         config.addAllowedOrigin("http://localhost:8080"); // 允许前端的域名
         config.addAllowedHeader("*"); // 允许所有的请求头
         config.addAllowedMethod("*"); // 允许所有的请求方法

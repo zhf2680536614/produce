@@ -2,12 +2,11 @@ package com.atey.controller.user;
 
 
 import com.atey.dto.AddressBookDTO;
-import com.atey.entity.AddressBook;
 import com.atey.result.Result;
 import com.atey.service.IAddressBookService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,7 +22,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/user/address")
 @Api(tags="用户端收货地址相关接口")
 @Slf4j
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class AddressBookController {
     private final IAddressBookService addressBookService;
 

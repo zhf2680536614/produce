@@ -22,6 +22,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.baomidou.mybatisplus.extension.toolkit.Db;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Service;
 
@@ -38,7 +39,7 @@ import java.util.*;
  * @since 2024-10-23
  */
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class MarketProducesServiceImpl extends ServiceImpl<MarketProducesMapper, MarketProduces> implements IMarketProducesService {
     private final MarketProducesMapper marketProducesMapper;
 

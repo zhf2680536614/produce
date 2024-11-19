@@ -10,7 +10,7 @@ import com.atey.vo.OrdersVO;
 import com.atey.vo.UserOrdersTotalsVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.web.bind.annotation.*;
@@ -27,7 +27,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/user/orders")
 @Api(tags="订单相关接口")
 @Slf4j
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class OrdersController {
     private final IOrdersService ordersService;
 

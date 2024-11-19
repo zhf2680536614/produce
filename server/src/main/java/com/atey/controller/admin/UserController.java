@@ -2,17 +2,15 @@ package com.atey.controller.admin;
 
 import com.atey.dto.PageDTO;
 import com.atey.dto.UserDTO;
-import com.atey.entity.User;
 import com.atey.query.UserQuery;
 import com.atey.result.Result;
 import com.atey.service.IUserService;
 import com.atey.vo.UserVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,7 +18,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/admin/user")
 @Api(tags = "管理端用户相关接口")
 @Slf4j
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class UserController {
 
     private final IUserService userService;

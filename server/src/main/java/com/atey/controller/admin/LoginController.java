@@ -10,7 +10,7 @@ import com.atey.utils.JwtUtil;
 import com.atey.vo.UserLoginVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -24,7 +24,7 @@ import java.util.Map;
 @RequestMapping("/admin")
 @Api(tags = "管理员登录相关接口")
 @Slf4j
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class LoginController {
 
     private final JwtProperties jwtProperties;

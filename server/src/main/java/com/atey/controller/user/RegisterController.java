@@ -6,17 +6,16 @@ import com.atey.service.IUserService;
 import com.atey.vo.UserVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.CachePut;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/user")
 @Api(tags="用户注册相关接口")
 @Slf4j
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class RegisterController {
 
     private final IUserService userService;

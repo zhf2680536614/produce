@@ -9,14 +9,11 @@ import com.atey.service.IProducesService;
 import com.atey.vo.ProducesVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.ibatis.annotations.Delete;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 /**
  * <p>
@@ -30,7 +27,7 @@ import java.util.List;
 @RequestMapping("/admin/produces")
 @Api(tags="管理端产品管理相关接口")
 @Slf4j
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class ProducesController {
     private final IProducesService producesService;
 

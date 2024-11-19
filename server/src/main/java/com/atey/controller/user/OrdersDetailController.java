@@ -5,10 +5,9 @@ import com.atey.dto.OrdersDetailsDTO;
 import com.atey.result.Result;
 import com.atey.service.IOrdersDetailService;
 import com.atey.vo.OrdersDetailVO;
-import com.atey.vo.UserVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,7 +21,7 @@ import org.springframework.web.bind.annotation.*;
  */
 @RestController("UserOrdersDetailsController")
 @RequestMapping("/user/ordersDetail")
-@AllArgsConstructor
+@RequiredArgsConstructor
 @Slf4j
 @Api(tags="订单明细相关接口")
 public class OrdersDetailController {

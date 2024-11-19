@@ -4,14 +4,13 @@ package com.atey.controller.user;
 import com.atey.dto.MarketConditionDTO;
 import com.atey.dto.MarketProducesDTO;
 import com.atey.dto.PageDTO;
-import com.atey.entity.MarketProduces;
 import com.atey.query.MarketProducesQuery;
 import com.atey.result.Result;
 import com.atey.service.IMarketProducesService;
 import com.atey.vo.MarketProducesVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,7 +27,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/user/marketProduces")
 @Slf4j
-@AllArgsConstructor
+@RequiredArgsConstructor
 @Api(tags = "市场产品相关接口")
 public class MarketProducesController {
     private final IMarketProducesService marketProducesService;

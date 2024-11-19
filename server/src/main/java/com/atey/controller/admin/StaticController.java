@@ -10,7 +10,7 @@ import com.atey.vo.BoutiqueVO;
 import com.atey.vo.CycleVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
@@ -20,7 +20,7 @@ import java.util.List;
 
 @RestController("AdminStaticController")
 @RequestMapping("/admin/static")
-@AllArgsConstructor
+@RequiredArgsConstructor
 @Slf4j
 @Api(tags="静态页面管理相关接口")
 public class StaticController {

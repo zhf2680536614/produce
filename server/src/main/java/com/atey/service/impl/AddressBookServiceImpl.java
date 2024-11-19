@@ -11,6 +11,7 @@ import com.atey.mapper.AddressBookMapper;
 import com.atey.service.IAddressBookService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,7 +29,7 @@ import java.util.Objects;
  * @since 2024-10-23
  */
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class AddressBookServiceImpl extends ServiceImpl<AddressBookMapper, AddressBook> implements IAddressBookService {
     private final AddressBookMapper addressBookMapper;
 

@@ -1,15 +1,17 @@
 package com.atey.controller.admin;
 
 
-import com.atey.dto.OrdersDetailsDTO;
 import com.atey.result.Result;
 import com.atey.service.IOrdersDetailService;
 import com.atey.vo.OrdersDetailVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * <p>
@@ -21,7 +23,7 @@ import org.springframework.web.bind.annotation.*;
  */
 @RestController("AdminOrdersDetailsController")
 @RequestMapping("/admin/ordersDetail")
-@AllArgsConstructor
+@RequiredArgsConstructor
 @Slf4j
 @Api(tags="订单明细相关接口")
 public class OrdersDetailController {
