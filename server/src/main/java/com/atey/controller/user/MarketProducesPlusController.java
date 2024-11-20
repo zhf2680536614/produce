@@ -36,7 +36,6 @@ public class MarketProducesPlusController {
      * @return
      */
     @GetMapping("/all")
-    @Cacheable(cacheNames = "marketProducesPlusCache", key = "#root.methodName")
     public Result<MPLVO> getPlus() {
         log.info("获取所有秒杀产品");
         MPLVO mp = marketProducesPlusService.getPlus();

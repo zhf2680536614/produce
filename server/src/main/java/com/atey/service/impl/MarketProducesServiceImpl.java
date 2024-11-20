@@ -131,9 +131,6 @@ public class MarketProducesServiceImpl extends ServiceImpl<MarketProducesMapper,
                 if (order == 1) {
                     eq.orderByDesc(MarketProduces::getUnitPrice);
                 }
-                if (order == 2) {
-                    eq.orderByDesc(MarketProduces::getUnitPrice);
-                }
                 if (order == 3) {
                     eq.orderByDesc(MarketProduces::getWeight);
                 }

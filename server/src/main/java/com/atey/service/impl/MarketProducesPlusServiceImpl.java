@@ -57,12 +57,18 @@ public class MarketProducesPlusServiceImpl extends ServiceImpl<MarketProducesPlu
                 .eq(MarketProducesPlus::getDeleted, DeletedConstant.NOT_DELETED)
                 .list();
 
-        //构建倒计时
-        //截止时间为创建时间 + 3分钟
+
         LocalDateTime createTime = marketProducesPluses.get(0).getCreateTime().plusMinutes(1);
         long date = createTime.toInstant(ZoneOffset.of("+8")).toEpochMilli();
         long temp = LocalDateTime.now().toInstant(ZoneOffset.of("+8")).toEpochMilli();
         date = date - temp;
+
+        if(date<=0){
+            createTime = LocalDateTime.now().plusMinutes(1);
+            date = createTime.toInstant(ZoneOffset.of("+8")).toEpochMilli();
+            temp = LocalDateTime.now().toInstant(ZoneOffset.of("+8")).toEpochMilli();
+            date =  date - temp;
+        }
 
         MPLVO mplVO = new MPLVO();
         mplVO.setDate(date);

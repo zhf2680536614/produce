@@ -39,7 +39,7 @@ public class OrderTask {
      * 自动处理未确认的订单
      */
     @Scheduled(cron = "0 * * * * *")
-    @CacheEvict(cacheNames = {"ordersCache","chartCache"}, allEntries = true)
+    @CacheEvict(cacheNames = {"ordersCache", "chartCache"}, allEntries = true)
     public void operateOutTimeOrder() {
         log.info("自动处理超时未支付订单 : {}", LocalDateTime.now());
 
@@ -69,7 +69,6 @@ public class OrderTask {
 
     //自动构造秒杀产品
     @Scheduled(cron = "0 */1 * * * *")
-    @CacheEvict(cacheNames = "marketProducesPlusCache", allEntries = true)
     public void createMPL() {
         log.info("自动处理秒杀产品 : {}", LocalDateTime.now());
         //删除秒杀产品数据库数据
@@ -104,6 +103,7 @@ public class OrderTask {
             MarketProduces marketProduces = list.get(index);
             MarketProducesPlus marketProducesPlus = new MarketProducesPlus();
             BeanUtil.copyProperties(marketProduces, marketProducesPlus);
+            marketProducesPlus.setUnitPrice(marketProduces.getUnitPrice() * 0.8);
             marketProducesPlus.setCreateTime(LocalDateTime.now());
             marketProducesPlus.setUpdateTime(LocalDateTime.now());
             listPlus.add(marketProducesPlus);
