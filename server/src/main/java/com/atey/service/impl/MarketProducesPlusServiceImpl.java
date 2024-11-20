@@ -25,6 +25,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.ArrayList;
@@ -42,6 +44,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class MarketProducesPlusServiceImpl extends ServiceImpl<MarketProducesPlusMapper, MarketProducesPlus> implements IMarketProducesPlusService {
     private final OrdersMapper ordersMapper;
+
     /**
      * 获取秒杀产品
      *
@@ -109,7 +112,10 @@ public class MarketProducesPlusServiceImpl extends ServiceImpl<MarketProducesPlu
         Double marketWeight = one.getWeight();
 
         //计算购买之后的库存
-        Double resultWeight = marketWeight - weight;
+        double resultWeight = marketWeight - weight;
+
+        BigDecimal bd = new BigDecimal(resultWeight);
+        resultWeight = bd.setScale(2, RoundingMode.HALF_UP).doubleValue();
 
         //更新库存
         Db.lambdaUpdate(MarketProduces.class)

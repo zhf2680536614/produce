@@ -26,6 +26,8 @@ import org.springframework.cache.annotation.CachePut;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
@@ -174,7 +176,10 @@ public class OrdersServiceImpl extends ServiceImpl<OrdersMapper, Orders> impleme
         Double marketWeight = one.getWeight();
 
         //计算购买之后的库存
-        Double resultWeight = marketWeight - weight;
+        double resultWeight = marketWeight - weight;
+
+        BigDecimal bd = new BigDecimal(resultWeight);
+        resultWeight = bd.setScale(2, RoundingMode.HALF_UP).doubleValue();
 
         //更新库存
         Db.lambdaUpdate(MarketProduces.class)
