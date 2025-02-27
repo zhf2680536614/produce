@@ -1,0 +1,71 @@
+{
+  "groups": [
+    {
+      "name": "atey.alioss",
+      "type": "com.atey.properties.AliOssProperties",
+      "sourceType": "com.atey.properties.AliOssProperties"
+    },
+    {
+      "name": "atey.jwt",
+      "type": "com.atey.properties.JwtProperties",
+      "sourceType": "com.atey.properties.JwtProperties"
+    }
+  ],
+  "properties": [
+    {
+      "name": "atey.alioss.access-key-id",
+      "type": "java.lang.String",
+      "sourceType": "com.atey.properties.AliOssProperties"
+    },
+    {
+      "name": "atey.alioss.access-key-secret",
+      "type": "java.lang.String",
+      "sourceType": "com.atey.properties.AliOssProperties"
+    },
+    {
+      "name": "atey.alioss.bucket-name",
+      "type": "java.lang.String",
+      "sourceType": "com.atey.properties.AliOssProperties"
+    },
+    {
+      "name": "atey.alioss.endpoint",
+      "type": "java.lang.String",
+      "sourceType": "com.atey.properties.AliOssProperties"
+    },
+    {
+      "name": "atey.jwt.admin-secret-key",
+      "type": "java.lang.String",
+      "description": "管理端员工生成jwt令牌相关配置",
+      "sourceType": "com.atey.properties.JwtProperties"
+    },
+    {
+      "name": "atey.jwt.admin-token-name",
+      "type": "java.lang.String",
+      "sourceType": "com.atey.properties.JwtProperties"
+    },
+    {
+      "name": "atey.jwt.admin-ttl",
+      "type": "java.lang.Long",
+      "sourceType": "com.atey.properties.JwtProperties",
+      "defaultValue": 0
+    },
+    {
+      "name": "atey.jwt.user-secret-key",
+      "type": "java.lang.String",
+      "description": "用户端普通用户生成jwt令牌相关配置",
+      "sourceType": "com.atey.properties.JwtProperties"
+    },
+    {
+      "name": "atey.jwt.user-token-name",
+      "type": "java.lang.String",
+      "sourceType": "com.atey.properties.JwtProperties"
+    },
+    {
+      "name": "atey.jwt.user-ttl",
+      "type": "java.lang.Long",
+      "sourceType": "com.atey.properties.JwtProperties",
+      "defaultValue": 0
+    }
+  ],
+  "hints": []
+}

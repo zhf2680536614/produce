@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.atey.mapper.OrdersMapper">
+
+    <update id="update">
+        update produce.orders
+        <set>
+            <if test="addressBookId!=null">
+                address_book_id = #{addressBookId},
+            </if>
+            <if test="consigneeName!=null and consigneeName!=''">
+                consignee_name = #{consigneeName},
+            </if>
+            <if test="phoneNumber!=null and phoneNumber!=''">
+                phone_number = #{phoneNumber},
+            </if>
+            <if test="addressBookName!=null and addressBookName!=''">
+                address_book_name = #{addressBookName},
+            </if>
+            <if test="remark!=null and remark!=''">
+                remark = #{remark},
+            </if>
+            <if test="status!=null">
+                status = #{status},
+            </if>
+            <if test="completeTime!=null">
+                complete_time = #{completeTime},
+            </if>
+            <if test="cancelTime!=null">
+                cancel_time = #{cancelTime},
+            </if>
+            <if test="deleted!=null">
+                deleted = #{deleted},
+            </if>
+            <if test="updateTime!=null">
+                update_time = #{updateTime},
+            </if>
+        </set>
+        <where>
+            id = #{id}
+        </where>
+    </update>
+    <select id="page" resultType="com.atey.vo.UserOrdersVO">
+        SELECT os.id as id,od.id as ordersDetailsId,
+        os.order_number, os.user_id, os.username, os.merchant_id as marketProducesId, os.merchant_name,
+        os.address_book_id, os.consignee_name, os.address_book_name, os.phone_number, os.status, os.complete_time,
+        os.cancel_time, os.remark, os.deleted, os.create_time, os.update_time,
+        od.id, produce_name, image, produce_category, produce_weight, unit_price, amount
+        FROM produce.orders AS os
+        JOIN produce.orders_detail AS od ON os.id = od.orders_id
+        <where>
+            <if test="id!=null">
+                and os.user_id = #{id}
+            </if>
+            <if test="producesName!=null and producesName!=''">
+                and od.produce_name LIKE CONCAT('%', #{producesName}, '%')
+            </if>
+            <if test="merchantName!=null and merchantName!=''">
+                and os.merchant_name LIKE CONCAT('%', #{merchantName}, '%')
+            </if>
+            <if test="status!=null">
+                and od.status = #{status}
+            </if>
+            <if test="startCreateTime!=null and endCreateTime!=null">
+                and od.create_time BETWEEN #{startCreateTime} AND #{endCreateTime}
+            </if>
+            <if test="id!=null">
+                and os.deleted = 1
+            </if>
+        </where>
+        ORDER BY os.id DESC
+        LIMIT #{pageNo}, #{pageSize};
+
+    </select>
+    <select id="total" resultType="java.lang.Integer" parameterType="com.atey.query.UserOrdersQuery">
+        SELECT count(*)
+        FROM produce.orders AS os
+        JOIN produce.orders_detail AS od ON os.id = od.orders_id
+        <where>
+            <if test="id!=null">
+                and os.user_id = #{id}
+            </if>
+            <if test="producesName!=null and producesName!=''">
+                and od.produce_name LIKE CONCAT('%', #{producesName}, '%')
+            </if>
+            <if test="merchantName!=null and merchantName!=''">
+                and os.merchant_name LIKE CONCAT('%', #{merchantName}, '%')
+            </if>
+            <if test="status!=null">
+                and od.status = #{status}
+            </if>
+            <if test="startCreateTime!=null and endCreateTime!=null">
+                and od.create_time BETWEEN #{startCreateTime} AND #{endCreateTime}
+            </if>
+            <if test="id!=null">
+                and os.deleted = 1
+            </if>
+        </where>
+    </select>
+
+    <select id="countOrders" resultType="com.atey.entity.ChartOrders">
+        select status, count(status) as count
+        from produce.orders
+        <where>
+            <if test="startDateTime!=null and endDateTime!=null">
+                and create_time between #{startDateTime} and #{endDateTime}
+            </if>
+            and deleted = 1
+        </where>
+        group by status
+    </select>
+
+
+</mapper>

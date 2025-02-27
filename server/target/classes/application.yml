@@ -1,0 +1,58 @@
+server:
+  port: 8081
+
+spring:
+  profiles:
+    active: dev
+  main:
+    allow-circular-references: true
+  datasource:
+    driver-class-name: ${atey.datasource.driver-class-name}
+    url: jdbc:mysql://${atey.datasource.host}:${atey.datasource.port}/${atey.datasource.database}?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&useSSL=false&allowPublicKeyRetrieval=true
+    username: ${atey.datasource.username}
+    password: ${atey.datasource.password}
+  data:
+    redis:
+      host: ${atey.redis.host}
+      port: ${atey.redis.port}
+      password: ${atey.redis.password}
+      database: ${atey.redis.database}
+
+mybatis-plus:
+  configuration:
+    default-enum-type-handler: com.baomidou.mybatisplus.core.handlers.MybatisEnumTypeHandler
+    map-underscore-to-camel-case: true
+  global-config:
+    db-config:
+      update-strategy: not_null
+      id-type: assign_id
+    banner: true
+
+logging:
+  level:
+    com:
+      atey:
+        mapper: debug
+        service: info
+        controller: info
+
+atey:
+  jwt:
+    # 管理端
+    # 设置jwt签名加密时使用的秘钥
+    admin-secret-key: atey
+    # 设置jwt过期时间
+    admin-ttl: 72000000
+    # 设置前端传递过来的令牌名称
+    admin-token-name: Authorizations
+
+    # 用户端
+    user-secret-key: atey
+    user-ttl: 72000000
+    user-token-name: Authorizations
+
+  alioss:
+    endpoint: ${sky.alioss.endpoint}
+    access-key-id: ${sky.alioss.access-key-id}
+    access-key-secret: ${sky.alioss.access-key-secret}
+    bucket-name: ${sky.alioss.bucket-name}
