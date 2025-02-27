@@ -81,7 +81,9 @@ public class OrderTask {
                 idList.add(marketProducesPlus.getId());
             }
         }
-        marketProducesPlusMapper.deleteByIds(idList);
+        if(!idList.isEmpty()){
+            marketProducesPlusMapper.deleteByIds(idList);
+        }
 
         List<MarketProduces> list = Db.lambdaQuery(MarketProduces.class)
                 .eq(MarketProduces::getDeleted, DeletedConstant.NOT_DELETED)
